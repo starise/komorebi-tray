@@ -14,7 +14,6 @@ Komorebic(cmd) {
 }
 
 GetProfiles() {
-  global profileFolder
   profiles := []
 
   Loop Files (profileFolder "\*.ahk") {
@@ -26,51 +25,47 @@ GetProfiles() {
 }
 
 EnableProfile(profile) {
-  global profileFolder, komorebiConfig
-  profilePath := profileFolder "\" profile
+  global activeProfile
 
-  FileCopy(profilePath, komorebiConfig, 1)
-  Komorebic("reload-configuration")
+  if (activeProfile != profile) {
+    profileMenu.Uncheck(activeProfile)
+    profileMenu.Check(profile)
+    FileDelete(profileStored)
+    FileAppend(profile, profileStored)
+
+    ; Overwrite main komorebi.ahk and reload configuration
+    FileCopy(profileFolder "\" profile, komorebiConfig, 1)
+    Komorebic("reload-configuration")
+
+    activeProfile := profile
+  }
 }
 
-; Generare il menu per selezionare gli script
 GenerateMenu(profiles) {
-  global activeProfile, profileStored
+  global profileMenu := Menu()
   TrayMenu := A_TrayMenu
   TrayMenu.Delete()
-  profileMenu := Menu()
 
   for (profile in profiles) {
     profileMenu.Add(profile, ProfileMenuHandler)
   }
+  profileMenu.Check(activeProfile)
 
   TrayMenu.Add("Profiles", profileMenu)
   TrayMenu.Add("Reload", ReloadScript)
   TrayMenu.Add("Exit", ExitScript)
+}
 
-  profileMenu.ToggleCheck(activeProfile)
+ProfileMenuHandler(profile, *) {
+  EnableProfile(profile)
+}
 
-  ProfileMenuHandler(newProfile, pos, profileMenu) {
-    global activeProfile, profileStored
+ReloadScript(Item, *) {
+  Reload()
+}
 
-    if (activeProfile != newProfile) {
-      FileDelete(profileStored)
-      FileAppend(newProfile, profileStored)
-      profileMenu.ToggleCheck(activeProfile)
-      profileMenu.ToggleCheck(newProfile)
-      activeProfile := newProfile
-    }
-
-    EnableProfile(newProfile)
-  }
-
-  ReloadScript(Item, *) {
-    Reload()
-  }
-
-  ExitScript(Item, *) {
-    ExitApp()
-  }
+ExitScript(Item, *) {
+  ExitApp()
 }
 
 Startup(profiles) {
@@ -120,15 +115,15 @@ Startup(profiles) {
   }
 
   global activeProfile
-  if ( not FileExist(profileStored)) {
-    activeProfile := profiles[1]
-    FileAppend(activeProfile, profileStored)
-  } else {
+  if (FileExist(profileStored)) {
     activeProfile := FileRead(profileStored)
+  } else {
+    activeProfile := profiles[1]
+    FileAppend(profiles[1], profileStored)
   }
-  EnableProfile(activeProfile)
 
   GenerateMenu(profiles)
+  EnableProfile(activeProfile)
 }
 
 Startup(GetProfiles())
