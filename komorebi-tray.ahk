@@ -35,16 +35,16 @@ EnableProfile(profile) {
 
 ; Generare il menu per selezionare gli script
 GenerateMenu(profiles) {
-  global activeProfile, profileStored  
+  global activeProfile, profileStored
   TrayMenu := A_TrayMenu
-  TrayMenu.Delete()  
+  TrayMenu.Delete()
   profileMenu := Menu()
 
   for (profile in profiles) {
     profileMenu.Add(profile, ProfileMenuHandler)
   }
 
-  if (activeProfile == "") {
+  if (activeProfile = "") {
     if (FileExist(profileStored)) {
       activeProfile := FileRead(profileStored)
     } else {
@@ -52,42 +52,41 @@ GenerateMenu(profiles) {
       FileAppend(activeProfile, profileStored)
     }
   }
-
   EnableProfile(activeProfile)
-  profileMenu.ToggleCheck(activeProfile)  
+
+  profileMenu.ToggleCheck(activeProfile)
   TrayMenu.Add("Profiles", profileMenu)
   TrayMenu.Add("Reload", ReloadScript)
   TrayMenu.Add("Exit", ExitScript)
 
   ProfileMenuHandler(newProfile, pos, profileMenu) {
     global activeProfile, profileStored
-  
-    EnableProfile(newProfile)
-  
+
     if (activeProfile != newProfile) {
       FileDelete(profileStored)
       FileAppend(newProfile, profileStored)
       profileMenu.ToggleCheck(activeProfile)
       profileMenu.ToggleCheck(newProfile)
+      activeProfile := newProfile
     }
-  
-    activeProfile := newProfile
+
+    EnableProfile(newProfile)
   }
 
   ReloadScript(Item, *) {
     Reload()
   }
-  
+
   ExitScript(Item, *) {
     ExitApp()
-  }  
+  }
 }
 
 Startup() {
-  if (not komorebiHome) {
+  if ( not komorebiHome) {
     userChoice := MsgBox(
       "KOMOREBI_CONFIG_HOME is required.`n`n" .
-      "Press [Continue] to read the documentation.`n",,
+      "Press [Continue] to read the documentation.`n", ,
       "CancelTryAgainContinue"
     )
     Switch userChoice {
@@ -101,7 +100,7 @@ Startup() {
     }
   }
 
-  if (not FileExist(komorebiJson)) {
+  if ( not FileExist(komorebiJson)) {
     userProfileJson := EnvGet("USERPROFILE") "\komorebi.json"
     if (FileExist(userProfileJson)) {
       MsgBox(
@@ -121,7 +120,7 @@ Startup() {
     }
   }
 
-  if (not DirExist(profileFolder)) {
+  if ( not DirExist(profileFolder)) {
     MsgBox(
       "Profile folder not detected.`n`n" .
       "Creating new defaults to: " profileFolder
