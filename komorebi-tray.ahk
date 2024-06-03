@@ -15,7 +15,7 @@ GetProfiles() {
   global profileFolder
   profiles := []
 
-  Loop Files, profileFolder "\*.ahk" {
+  Loop Files (profileFolder "\*.ahk") {
     fileName := StrSplit(A_LoopFilePath, "\").Pop()
     profiles.Push(fileName)
   }
@@ -81,4 +81,25 @@ GenerateMenu(profiles) {
   }  
 }
 
-GenerateMenu(GetProfiles())
+Startup() {
+  if (not komorebiHome) {
+    userChoice := MsgBox(
+      "KOMOREBI_CONFIG_HOME is required.`n`n" .
+      "Press [Continue] to read the documentation.`n",,
+      "CancelTryAgainContinue"
+    )
+    Switch userChoice {
+      Case "Continue":
+        Run "https://github.com/starise/komorebi-tray"
+        ExitApp()
+      Case "TryAgain":
+        Reload()
+      Default:
+        ExitApp()
+    }
+  }
+
+  GenerateMenu(GetProfiles())
+}
+
+Startup()
