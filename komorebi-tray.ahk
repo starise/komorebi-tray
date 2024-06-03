@@ -2,7 +2,9 @@
 #SingleInstance Force
 Persistent
 
-global komorebiConfig := EnvGet("KOMOREBI_CONFIG_HOME") "\komorebi.ahk"
+global komorebiHome := EnvGet("KOMOREBI_CONFIG_HOME")
+global komorebiJson := komorebiHome "\komorebi.json"
+global komorebiConfig := komorebiHome "\komorebi.ahk"
 global profileFolder := A_ScriptDir "\profiles"
 global profileStored := A_ScriptDir "\profile.ini"
 global activeProfile := ""
@@ -96,6 +98,26 @@ Startup() {
         Reload()
       Default:
         ExitApp()
+    }
+  }
+
+  if (not FileExist(komorebiJson)) {
+    userProfileJson := EnvGet("USERPROFILE") "\komorebi.json"
+    if (FileExist(userProfileJson)) {
+      MsgBox(
+        "Detected: " userProfileJson "`n`n" .
+        "Moving to: " komorebiJson
+      )
+      FileMove(userProfileJson, komorebiHome)
+    } else {
+      userChoice := MsgBox(
+        "komorebi.json not detected`n`n" .
+        "Downloading defaults to: " komorebiJson
+      )
+      Download(
+        "https://raw.githubusercontent.com/LGUG2Z/komorebi/master/docs/komorebi.example.json",
+        komorebiHome "\komorebi.json"
+      )
     }
   }
 
