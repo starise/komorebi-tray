@@ -44,20 +44,11 @@ GenerateMenu(profiles) {
     profileMenu.Add(profile, ProfileMenuHandler)
   }
 
-  if (activeProfile = "") {
-    if (FileExist(profileStored)) {
-      activeProfile := FileRead(profileStored)
-    } else {
-      activeProfile := profiles[1]
-      FileAppend(activeProfile, profileStored)
-    }
-  }
-  EnableProfile(activeProfile)
-
-  profileMenu.ToggleCheck(activeProfile)
   TrayMenu.Add("Profiles", profileMenu)
   TrayMenu.Add("Reload", ReloadScript)
   TrayMenu.Add("Exit", ExitScript)
+
+  profileMenu.ToggleCheck(activeProfile)
 
   ProfileMenuHandler(newProfile, pos, profileMenu) {
     global activeProfile, profileStored
@@ -82,7 +73,7 @@ GenerateMenu(profiles) {
   }
 }
 
-Startup() {
+Startup(profiles) {
   if ( not komorebiHome) {
     userChoice := MsgBox(
       "KOMOREBI_CONFIG_HOME is required.`n`n" .
@@ -128,7 +119,16 @@ Startup() {
     DirCopy(A_ScriptDir . "\profiles", profileFolder)
   }
 
-  GenerateMenu(GetProfiles())
+  global activeProfile
+  if ( not FileExist(profileStored)) {
+    activeProfile := profiles[1]
+    FileAppend(activeProfile, profileStored)
+  } else {
+    activeProfile := FileRead(profileStored)
+  }
+  EnableProfile(activeProfile)
+
+  GenerateMenu(profiles)
 }
 
-Startup()
+Startup(GetProfiles())
