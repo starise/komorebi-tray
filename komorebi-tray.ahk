@@ -110,7 +110,7 @@ Startup() {
       )
       FileMove(userProfileJson, komorebiHome)
     } else {
-      userChoice := MsgBox(
+      MsgBox(
         "komorebi.json not detected.`n`n" .
         "Downloading defaults to: " komorebiJson
       )
