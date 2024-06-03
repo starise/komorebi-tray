@@ -5,8 +5,8 @@ Persistent
 global komorebiHome := EnvGet("KOMOREBI_CONFIG_HOME")
 global komorebiJson := komorebiHome "\komorebi.json"
 global komorebiConfig := komorebiHome "\komorebi.ahk"
-global profileFolder := A_ScriptDir "\profiles"
-global profileStored := A_ScriptDir "\profile.ini"
+global profileFolder := komorebiHome "\profiles"
+global profileStored := komorebiHome "\profile.ini"
 global activeProfile := ""
 
 Komorebic(cmd) {
@@ -111,7 +111,7 @@ Startup() {
       FileMove(userProfileJson, komorebiHome)
     } else {
       userChoice := MsgBox(
-        "komorebi.json not detected`n`n" .
+        "komorebi.json not detected.`n`n" .
         "Downloading defaults to: " komorebiJson
       )
       Download(
@@ -119,6 +119,14 @@ Startup() {
         komorebiHome "\komorebi.json"
       )
     }
+  }
+
+  if (not DirExist(profileFolder)) {
+    MsgBox(
+      "Profile folder not detected.`n`n" .
+      "Creating new defaults to: " profileFolder
+    )
+    DirCopy(A_ScriptDir . "\profiles", profileFolder)
   }
 
   GenerateMenu(GetProfiles())
