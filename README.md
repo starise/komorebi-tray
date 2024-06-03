@@ -25,9 +25,10 @@ $Env:KOMOREBI_CONFIG_HOME = "$($Env:USERPROFILE)\.config\komorebi"
 
 ## AutoHotkey configuration profiles
 
-Add custom `*.ahk` scripts into the `profiles\` folder.
+Add custom `*.ahk` scripts to `$Env:KOMOREBI_CONFIG_HOME\profiles\` folder.
 
 ```autohotkey
+; custom_profile.ahk
 #Requires AutoHotkey v2.0
 #SingleInstance Force
 #NoTrayIcon
