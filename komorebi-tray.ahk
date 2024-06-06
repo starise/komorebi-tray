@@ -4,11 +4,8 @@ Persistent
 
 #Include %A_ScriptDir%\lib\Komorebi.ahk
 
-global komorebiHome := EnvGet("KOMOREBI_CONFIG_HOME")
-global komorebiJson := komorebiHome "\komorebi.json"
-global komorebiConfig := komorebiHome "\komorebi.ahk"
-global profileFolder := komorebiHome "\profiles"
-global profileStored := komorebiHome "\profile.ini"
+global profileFolder := Komorebi.CONFIG_HOME "\profiles"
+global profileStored := Komorebi.CONFIG_HOME "\profile.ini"
 global activeProfile := ""
 
 GetProfiles() {
@@ -32,7 +29,7 @@ EnableProfile(profile) {
     FileAppend(profile, profileStored)
 
     ; Overwrite main komorebi.ahk and reload configuration
-    FileCopy(profileFolder "\" profile, komorebiConfig, 1)
+    FileCopy(profileFolder "\" profile, Komorebi.configAhk, 1)
     Komorebi.command("reload-configuration")
 
     activeProfile := profile
@@ -67,7 +64,7 @@ ExitScript(Item, *) {
 }
 
 Startup(profiles) {
-  if ( not komorebiHome) {
+  if ( not Komorebi.CONFIG_HOME) {
     userChoice := MsgBox(
       "KOMOREBI_CONFIG_HOME is required.`n`n" .
       "Press [Continue] to read the documentation.`n", ,
@@ -84,22 +81,21 @@ Startup(profiles) {
     }
   }
 
-  if ( not FileExist(komorebiJson)) {
-    userProfileJson := EnvGet("USERPROFILE") "\komorebi.json"
-    if (FileExist(userProfileJson)) {
+  if ( not FileExist(Komorebi.configJson)) {
+    if (FileExist(Komorebi.userProfileJson)) {
       MsgBox(
-        "Detected: " userProfileJson "`n`n" .
-        "Moving to: " komorebiJson
+        "Detected: " Komorebi.userProfileJson "`n`n" .
+        "Moving to: " Komorebi.configJson
       )
-      FileMove(userProfileJson, komorebiHome)
+      FileMove(Komorebi.userProfileJson, Komorebi.configJson)
     } else {
       MsgBox(
         "komorebi.json not detected.`n`n" .
-        "Downloading defaults to: " komorebiJson
+        "Downloading defaults to: " Komorebi.configJson
       )
       Download(
         "https://raw.githubusercontent.com/LGUG2Z/komorebi/master/docs/komorebi.example.json",
-        komorebiHome "\komorebi.json"
+        Komorebi.CONFIG_HOME "\komorebi.json"
       )
     }
   }
