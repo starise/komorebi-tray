@@ -23,4 +23,14 @@ Class Komorebi
   static command(cmd) {
     RunWait(Format("komorebic.exe {}", cmd), , "Hide")
   }
+
+  ; Subscribe komorebi to a named pipe
+  static subscribe(pipe_name) {
+    this.command(Format("subscribe-pipe {}", pipe_name))
+  }
+
+  ; Unsubscribe komorebi from a named pipe
+  static unsubscribe(pipe_name) {
+    this.command(Format("unsubscribe-pipe {}", pipe_name))
+  }
 }
