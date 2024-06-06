@@ -2,16 +2,14 @@
 #SingleInstance Force
 Persistent
 
+#Include %A_ScriptDir%\lib\Komorebi.ahk
+
 global komorebiHome := EnvGet("KOMOREBI_CONFIG_HOME")
 global komorebiJson := komorebiHome "\komorebi.json"
 global komorebiConfig := komorebiHome "\komorebi.ahk"
 global profileFolder := komorebiHome "\profiles"
 global profileStored := komorebiHome "\profile.ini"
 global activeProfile := ""
-
-Komorebic(cmd) {
-  RunWait(format("komorebic.exe {}", cmd), , "Hide")
-}
 
 GetProfiles() {
   profiles := []
@@ -35,7 +33,7 @@ EnableProfile(profile) {
 
     ; Overwrite main komorebi.ahk and reload configuration
     FileCopy(profileFolder "\" profile, komorebiConfig, 1)
-    Komorebic("reload-configuration")
+    Komorebi.command("reload-configuration")
 
     activeProfile := profile
   }
@@ -77,7 +75,7 @@ Startup(profiles) {
     )
     Switch userChoice {
       Case "Continue":
-        Run "https://github.com/starise/komorebi-tray"
+        Run("https://github.com/starise/komorebi-tray")
         ExitApp()
       Case "TryAgain":
         Reload()
@@ -111,7 +109,7 @@ Startup(profiles) {
       "Profile folder not detected.`n`n" .
       "Creating new defaults to: " profileFolder
     )
-    DirCopy(A_ScriptDir . "\profiles", profileFolder)
+    DirCopy(A_ScriptDir "\profiles", profileFolder)
   }
 
   global activeProfile
