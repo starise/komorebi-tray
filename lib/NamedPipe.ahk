@@ -33,16 +33,16 @@ class NamedPipe
       bufferSize := this.bufferSize
 
       ; https://learn.microsoft.com/en-us/windows/win32/ipc/named-pipe-operations
-      pipeHandle := DllCall("CreateNamedPipe",
-        "Str", pipePath,    ; Pipe path name
-        "UInt", openMode,   ; Open mode: access_inbound (read only)
-        "UInt", pipeMode,   ; Pipe modes: type_message | readmode_message | nowait
-        "UInt", 1,          ; Max number of instances
+      pipeHandle := DllCall(
+        "CreateNamedPipe",
+        "Str", pipePath, ; Pipe path name
+        "UInt", openMode, ; Open mode: access_inbound (read only)
+        "UInt", pipeMode, ; Pipe modes: type_message | readmode_message | nowait
+        "UInt", 1, ; Max number of instances
         "UInt", bufferSize, ; Output buffer size (in bytes)
         "UInt", bufferSize, ; Input buffer size (in bytes)
-        "UInt", 0,          ; Timeout in milliseconds
-        "Ptr", 0,           ; Security attributes (default)
-        "Ptr"
+        "UInt", 0, ; Timeout in milliseconds
+        "Ptr", 0 ; Security attributes (default)
       )
       if (this.lastErrorCode != 0) {
         throw Error("Failed to create a named pipe.", this.lastErrorCode)
