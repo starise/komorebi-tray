@@ -24,6 +24,11 @@ Class Komorebi
     RunWait(Format("komorebic.exe {}", cmd), , "Hide")
   }
 
+  ; Reload komorebi.ahk config file
+  static reloadConfigAhk() {
+    this.command("reload-configuration")
+  }
+
   ; Subscribe komorebi to a named pipe
   static subscribe(pipe_name) {
     this.command(Format("subscribe-pipe {}", pipe_name))
