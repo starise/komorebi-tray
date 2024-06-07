@@ -1,14 +1,14 @@
 class NamedPipe
 {
-  ; read only mode
+  ; Default open mode: read only.
   static DEFAULT_OPEN_MODE := 0x01
-  ; type_message | readmode_message | nowait
+  ; Default pipe mode: type_message | readmode_message | nowait.
   static DEFAULT_PIPE_MODE := 0x04 | 0x02 | 0x01
-  ; I/O buffer size: 64KB
+  ; Default I/O buffer size: 64KB.
   static DEFAULT_BUFFER_SIZE := 64 * 1024
 
   __New(
-    pipeName, ; Name of the pipe is mandatory
+    pipeName, ; Name of the pipe is mandatory.
     openMode := NamedPipe.DEFAULT_OPEN_MODE,
     pipeMode := NamedPipe.DEFAULT_PIPE_MODE,
     bufferSize := NamedPipe.DEFAULT_BUFFER_SIZE
@@ -56,7 +56,7 @@ class NamedPipe
     }
   }
 
-  ; Establish a connection to the named using the instance handle.
+  ; Establish a connection to the named pipe using the instance handle.
   ; When a connection is established, the pipe can be used for data transfer.
   connectNamedPipe() {
     try {

@@ -1,40 +1,40 @@
 Class Komorebi
 {
-  ; userprofile folder path
+  ; Userprofile folder path.
   static USERPROFILE := EnvGet("USERPROFILE")
-  ; komorebi config home folder path
+  ; Komorebi config home folder path.
   static CONFIG_HOME := EnvGet("KOMOREBI_CONFIG_HOME")
 
-  ; userprofile komorebi.json file path
+  ; Userprofile komorebi.json file path.
   static userProfileJson => this.USERPROFILE "\komorebi.json"
-  ; userprofile komorebi.ahk file path
+  ; Userprofile komorebi.ahk file path.
   static userProfileAhk => this.USERPROFILE "\komorebi.ahk"
-  ; userprofile applications.yaml file path
+  ; Userprofile applications.yaml file path.
   static userProfileYaml => this.USERPROFILE "\komorebi.yaml"
 
-  ; default komorebi.json file path
+  ; Default komorebi.json file path.
   static configJson => this.CONFIG_HOME "\komorebi.json"
-  ; default komorebi.ahk file path
+  ; Default komorebi.ahk file path.
   static configAhk => this.CONFIG_HOME "\komorebi.ahk"
-  ; default applications.yaml file path
+  ; Default applications.yaml file path.
   static configYaml => this.CONFIG_HOME "\komorebi.yaml"
 
-  ; Send a command to komorebic.exe
+  ; Send a command to komorebic executable.
   static command(cmd) {
     RunWait(Format("komorebic.exe {}", cmd), , "Hide")
   }
 
-  ; Reload komorebi.ahk config file
+  ; Reload komorebi.ahk config file.
   static reloadConfigAhk() {
     this.command("reload-configuration")
   }
 
-  ; Subscribe komorebi to a named pipe
+  ; Subscribe komorebi to a named pipe.
   static subscribe(pipe_name) {
     this.command(Format("subscribe-pipe {}", pipe_name))
   }
 
-  ; Unsubscribe komorebi from a named pipe
+  ; Unsubscribe komorebi from a named pipe.
   static unsubscribe(pipe_name) {
     this.command(Format("unsubscribe-pipe {}", pipe_name))
   }
