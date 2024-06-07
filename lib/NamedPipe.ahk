@@ -108,39 +108,34 @@ class NamedPipe
   getData() {
     bytesToRead := 0
     bytesRead := 0
-    validData := ""
     bufferData := Buffer(this.bufferSize)
 
-    while ( not validData) {
-      success := DllCall(
-        "PeekNamedPipe",
-        "Ptr", this.pipeHandle, ; Handle to the named pipe instance.
-        "Ptr", 0, ; Buffer that receives data read from the pipe.
-        "UInt", 0, ; Size of the buffer for the read data (in bytes).
-        "Ptr", 0, ; Variable that receives the number of bytes read.
-        "PtrP", &bytesToRead, ; Bytes available to be read from the pipe.
-        "Ptr", 0 ; Bytes remaining. Zero for byte-type named pipes or anonymous pipes.
-      )
-      if ( not success or not bytesToRead) {
-        Sleep(50)
-        continue
-      }
-      success := DllCall(
-        "ReadFile",
-        "Ptr", this.pipeHandle, ; Handle to the named pipe instance.
-        "Ptr", bufferData, ; Buffer that receives data read from the pipe.
-        "UInt", this.bufferSize, ; Size of the buffer for the read data (in bytes).
-        "UIntP", &bytesRead, ; Variable that receives the number of bytes read.
-        "Ptr", 0 ; Overlapped flag (set to 0 for standard reading).
-      )
-      ; Re-check if less than 2 bytes (newlines)
-      if ( not success or bytesRead <= 1) {
-        continue
-      }
-      validData := StrGet(bufferData, bytesRead, "UTF-8")
+    success := DllCall(
+      "PeekNamedPipe",
+      "Ptr", this.pipeHandle, ; Handle to the named pipe instance.
+      "Ptr", 0, ; Buffer that receives data read from the pipe.
+      "UInt", 0, ; Size of the buffer for the read data (in bytes).
+      "Ptr", 0, ; Variable that receives the number of bytes read.
+      "PtrP", &bytesToRead, ; Bytes available to be read from the pipe.
+      "Ptr", 0 ; Bytes remaining. Zero for byte-type named pipes or anonymous pipes.
+    )
+    if ( not success or not bytesToRead) {
+      return false
+    }
+    success := DllCall(
+      "ReadFile",
+      "Ptr", this.pipeHandle, ; Handle to the named pipe instance.
+      "Ptr", bufferData, ; Buffer that receives data read from the pipe.
+      "UInt", this.bufferSize, ; Size of the buffer for the read data (in bytes).
+      "UIntP", &bytesRead, ; Variable that receives the number of bytes read.
+      "Ptr", 0 ; Overlapped flag (set to 0 for standard reading).
+    )
+    ; Re-check if less than 2 bytes (newlines)
+    if ( not success or bytesRead <= 1) {
+      return false
     }
 
-    return validData
+    return StrGet(bufferData, bytesRead, "UTF-8")
   }
 
   ; System error codes:
