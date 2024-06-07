@@ -12,6 +12,9 @@ Class KomorebiProfile
   ; Check if a profile is different from the current active one
   static isDifferent(profile) => this.active != profile
 
+  ; Make the given profile the current active one
+  static activate(profile) => this.active := profile
+
   ; Get array of all available autohotkey profiles
   static getAll() {
     profiles := []
@@ -31,7 +34,7 @@ Class KomorebiProfile
       FileCopy(this.folder "\" profile, Komorebi.configAhk, 1)
       Komorebi.reloadConfigAhk()
 
-      this.active := profile
+      this.activate(profile)
     }
   }
 }
