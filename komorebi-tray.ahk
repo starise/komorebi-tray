@@ -3,67 +3,10 @@
 Persistent
 
 #Include %A_ScriptDir%\lib\Komorebi.ahk
+#Include %A_ScriptDir%\lib\KomorebiProfile.ahk
+#Include %A_ScriptDir%\lib\KomorebiTray.ahk
 
-global profileFolder := Komorebi.CONFIG_HOME "\profiles"
-global profileStored := Komorebi.CONFIG_HOME "\profile.ini"
-global activeProfile := ""
-
-GetProfiles() {
-  profiles := []
-
-  Loop Files (profileFolder "\*.ahk") {
-    fileName := StrSplit(A_LoopFilePath, "\").Pop()
-    profiles.Push(fileName)
-  }
-
-  return profiles
-}
-
-EnableProfile(profile) {
-  global activeProfile
-
-  if (activeProfile != profile) {
-    profileMenu.Uncheck(activeProfile)
-    profileMenu.Check(profile)
-    FileDelete(profileStored)
-    FileAppend(profile, profileStored)
-
-    ; Overwrite main komorebi.ahk and reload configuration
-    FileCopy(profileFolder "\" profile, Komorebi.configAhk, 1)
-    Komorebi.command("reload-configuration")
-
-    activeProfile := profile
-  }
-}
-
-GenerateMenu(profiles) {
-  global profileMenu := Menu()
-  TrayMenu := A_TrayMenu
-  TrayMenu.Delete()
-
-  for (profile in profiles) {
-    profileMenu.Add(profile, ProfileMenuHandler)
-  }
-  profileMenu.Check(activeProfile)
-
-  TrayMenu.Add("Profiles", profileMenu)
-  TrayMenu.Add("Reload", ReloadScript)
-  TrayMenu.Add("Exit", ExitScript)
-}
-
-ProfileMenuHandler(profile, *) {
-  EnableProfile(profile)
-}
-
-ReloadScript(Item, *) {
-  Reload()
-}
-
-ExitScript(Item, *) {
-  ExitApp()
-}
-
-Startup(profiles) {
+Startup() {
   if ( not Komorebi.CONFIG_HOME) {
     userChoice := MsgBox(
       "KOMOREBI_CONFIG_HOME is required.`n`n" .
@@ -95,29 +38,29 @@ Startup(profiles) {
       )
       Download(
         "https://raw.githubusercontent.com/LGUG2Z/komorebi/master/docs/komorebi.example.json",
-        Komorebi.CONFIG_HOME "\komorebi.json"
+        Komorebi.configJson
       )
     }
   }
 
-  if ( not DirExist(profileFolder)) {
+  profiles := KomorebiProfile.getAll()
+
+  if ( not DirExist(KomorebiProfile.folder)) {
     MsgBox(
       "Profile folder not detected.`n`n" .
-      "Creating new defaults to: " profileFolder
+      "Creating new defaults to: " KomorebiProfile.folder
     )
-    DirCopy(A_ScriptDir "\profiles", profileFolder)
+    DirCopy(A_ScriptDir "\profiles", KomorebiProfile.folder)
   }
 
-  global activeProfile
-  if (FileExist(profileStored)) {
-    activeProfile := FileRead(profileStored)
+  if (FileExist(KomorebiProfile.stored)) {
+    KomorebiProfile.active := FileRead(KomorebiProfile.stored)
   } else {
-    activeProfile := profiles[1]
-    FileAppend(profiles[1], profileStored)
+    KomorebiProfile.active := profiles[1]
+    FileAppend(profiles[1], KomorebiProfile.stored)
   }
 
-  GenerateMenu(profiles)
-  EnableProfile(activeProfile)
+  KomorebiTray.generateMenu(profiles)
 }
 
-Startup(GetProfiles())
+Startup()
