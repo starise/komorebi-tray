@@ -16,11 +16,11 @@ Startup() {
     Switch userChoice {
       Case "Continue":
         Run("https://github.com/starise/komorebi-tray")
-        ExitApp()
+        KomorebiTray.exit()
       Case "TryAgain":
-        Reload()
+        KomorebiTray.reload()
       Default:
-        ExitApp()
+        KomorebiTray.exit()
     }
   }
 
