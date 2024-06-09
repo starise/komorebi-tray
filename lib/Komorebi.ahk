@@ -10,14 +10,14 @@ Class Komorebi
   ; Userprofile komorebi.ahk file path.
   static userProfileAhk => this.USERPROFILE "\komorebi.ahk"
   ; Userprofile applications.yaml file path.
-  static userProfileYaml => this.USERPROFILE "\komorebi.yaml"
+  static userProfileYaml => this.USERPROFILE "\applications.yaml"
 
   ; Default komorebi.json file path.
   static configJson => this.CONFIG_HOME "\komorebi.json"
   ; Default komorebi.ahk file path.
   static configAhk => this.CONFIG_HOME "\komorebi.ahk"
   ; Default applications.yaml file path.
-  static configYaml => this.CONFIG_HOME "\komorebi.yaml"
+  static configYaml => this.CONFIG_HOME "\applications.yaml"
 
   ; Send a command to komorebic executable.
   static command(cmd) {
