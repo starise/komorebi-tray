@@ -1,0 +1,11 @@
+{
+  "name": "komorebi-tray",
+  "author": "Andrea Brandi",
+  "license": "ISC",
+  "scripts": {
+    "icongen": "node generate-icons.js"
+  },
+  "dependencies": {
+    "icon-gen": "^4.0.0"
+  }
+}
