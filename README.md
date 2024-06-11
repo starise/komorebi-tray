@@ -1,4 +1,4 @@
-# komorebi-tray
+# <img src="images/png/app.png" width="24"> komorebi-tray
 
 A tray app to manage komorebi tiling window manager for Windows. 
 
@@ -23,7 +23,7 @@ ii $PROFILE
 $Env:KOMOREBI_CONFIG_HOME = "$($Env:USERPROFILE)\.config\komorebi"
 ```
 
-## AutoHotkey configuration profiles
+## AutoHotkey profiles
 
 Add custom `*.ahk` scripts to `$Env:KOMOREBI_CONFIG_HOME\profiles\` folder.
 
