@@ -63,4 +63,5 @@ Startup() {
   KomorebiTray.generateMenu(profiles)
 }
 
+TraySetIcon("images/ico/app.ico")
 Startup()
