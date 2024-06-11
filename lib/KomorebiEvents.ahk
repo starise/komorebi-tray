@@ -37,6 +37,10 @@ Class KomorebiEvents
     event := this.pipe.getData()
     if (event and event != this.lastEvent) {
       this.lastEvent := JSON.Load(event)["state"]
+      Komorebi.isPaused := this.lastEvent["is_paused"]
+      Komorebi.display := this.lastEvent["monitors"]["focused"] + 1
+      displayData := this.lastEvent["monitors"]["elements"][Komorebi.display]
+      Komorebi.workspace := displayData["workspaces"]["focused"] + 1
     }
   }
 }

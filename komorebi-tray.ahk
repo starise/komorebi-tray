@@ -3,6 +3,7 @@
 Persistent
 
 #Include %A_ScriptDir%\lib\Komorebi.ahk
+#Include %A_ScriptDir%\lib\KomorebiEvents.ahk
 #Include %A_ScriptDir%\lib\KomorebiProfile.ahk
 #Include %A_ScriptDir%\lib\KomorebiTray.ahk
 
@@ -60,8 +61,9 @@ Startup() {
     FileAppend(profiles[1], KomorebiProfile.stored)
   }
 
-  KomorebiTray.generateMenu(profiles)
+  KomorebiTray.start(profiles)
 }
 
 TraySetIcon("images/ico/app.ico")
+KomorebiEvents.start()
 Startup()

@@ -19,6 +19,13 @@ Class Komorebi
   ; Default applications.yaml file path.
   static configYaml => this.CONFIG_HOME "\applications.yaml"
 
+  ; True if komorebi is paused.
+  static isPaused := false
+  ; Number of current focused display.
+  static display := 0
+  ; Number of current focused workspace.
+  static workspace := 0
+
   ; Send a command to komorebic executable.
   static command(cmd) {
     RunWait(Format("komorebic.exe {}", cmd), , "Hide")

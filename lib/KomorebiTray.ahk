@@ -1,3 +1,4 @@
+#Include KomorebiEvents.ahk
 #Include KomorebiProfile.ahk
 
 Class KomorebiTray
@@ -9,10 +10,16 @@ Class KomorebiTray
   static profileMenu := Menu()
 
   ; Reload the entire app.
-  static reload(*) => Reload()
+  static reload(*) {
+    KomorebiEvents.stop()
+    Reload()
+  }
 
   ; Exit the entire app.
-  static exit(*) => ExitApp()
+  static exit(*) {
+    KomorebiEvents.stop()
+    ExitApp()
+  }
 
   ; Add the checkmark on the .ahk profile item in the Profile menu.
   static checkProfile(profile) => this.profileMenu.Check(profile)
@@ -21,7 +28,7 @@ Class KomorebiTray
   static uncheckProfile(profile) => this.profileMenu.Uncheck(profile)
 
   ; Generate the tray menu with a list of available profiles.
-  static generateMenu(profiles) {
+  static start(profiles) {
     this.mainMenu.Delete()
     for (profile in profiles) {
       this.profileMenu.Add(
@@ -33,6 +40,17 @@ Class KomorebiTray
     this.mainMenu.Add("Profiles", this.profileMenu)
     this.mainMenu.Add("Reload", this.reload)
     this.mainMenu.Add("Exit", this.exit)
+    ; Launch subroutine for tray icon updates.
+    SetTimer(this.updateTrayIcon.Bind(this), 50)
+  }
+
+  ; Update tray icon with current workspace number
+  static updateTrayIcon() {
+    if (FileExist("images/ico/d-" Komorebi.workspace ".ico")) {
+      TraySetIcon("images/ico/d-" Komorebi.workspace ".ico")
+    } else {
+      TraySetIcon("images/ico/app.ico")
+    }
   }
 
   ; Activate a new given profile and disable the previous one.
