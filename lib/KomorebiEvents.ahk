@@ -18,7 +18,7 @@ Class KomorebiEvents
     this.pipe.connectNamedPipe()
     Komorebi.subscribe(this.pipeName)
     ; Launch subroutine for event listening.
-    SetTimer(this.listener.Bind(this), 50)
+    SetTimer(this.listener.Bind(this), 10)
   }
 
   ; Stop listening and close the named pipe.

@@ -41,7 +41,7 @@ Class KomorebiTray
     this.mainMenu.Add("Reload", this.reload)
     this.mainMenu.Add("Exit", this.exit)
     ; Launch subroutine for tray icon updates.
-    SetTimer(this.updateTrayIcon.Bind(this), 50)
+    SetTimer(this.updateTrayIcon.Bind(this), 10)
   }
 
   ; Update tray icon with current workspace number
