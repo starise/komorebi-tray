@@ -1,4 +1,5 @@
 #Include Komorebi.ahk
+#Include KomorebiTray.ahk
 #Include NamedPipe.ahk
 #Include JSON.ahk
 
@@ -27,6 +28,11 @@ Class KomorebiEvents
 
   ; Create and connect to a new named pipe
   static openConnection() {
+    ; Always close the app if komorebi isn't running
+    ; TODO: keep app opened but waiting for komorebi.
+    if ( not Komorebi.isRunning) {
+      KomorebiTray.exit()
+    }
     this.pipe.create()
     Komorebi.subscribe(this.pipeName)
     this.pipe.connect()

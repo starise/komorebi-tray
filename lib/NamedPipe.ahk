@@ -80,18 +80,10 @@ class NamedPipe
         OutputDebug("Success. Pipe " this.pipeHandle " successfully connected.")
         this.pipeConnected := true
         Return true
+      } else {
+        this.pipeConnected := false
+        throw Error("Failed connection to the named pipe.", this.lastErrorCode)
       }
-      if (this.lastErrorCode = this.ERROR_NO_DATA) {
-        ;this.pipeConnected := false
-        Return true
-      }
-      if (this.lastErrorCode = this.ERROR_PIPE_LISTENING) {
-        OutputDebug("Pipe " this.pipeHandle " is listening for connections.")
-        ; Pipe (re)created but waiting for a process
-        Return
-      }
-      this.pipeConnected := false
-      throw Error("Failed connection to the named pipe.", this.lastErrorCode)
     } catch Error as e {
       this.errorHandle(e.Message, this.lastErrorCode)
     }
