@@ -27,15 +27,15 @@ Class KomorebiEvents
 
   ; Create and connect to a new named pipe
   static openConnection() {
-    this.pipe.createNamedPipe()
+    this.pipe.create()
     Komorebi.subscribe(this.pipeName)
-    this.pipe.connectNamedPipe()
+    this.pipe.connect()
   }
 
   ; Disconnect and close active named pipe
   static closeConnection() {
     Komorebi.unsubscribe(this.pipeName)
-    this.pipe.disconnectNamedPipe()
+    this.pipe.disconnect()
     this.pipe.closeHandle()
   }
 

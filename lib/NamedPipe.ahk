@@ -37,7 +37,7 @@ class NamedPipe
 
   ; Create a named pipe object in the system with the specified parameters.
   ; The returned handle can be used for connecting, reading, and writing data.
-  createNamedPipe() {
+  create() {
     try {
       pipePath := "\\.\pipe\" this.pipeName
       openMode := this.openMode
@@ -71,7 +71,7 @@ class NamedPipe
 
   ; Check established connections to the named pipe using the instance handle.
   ; When a connection is established, the pipe can be used for data transfer.
-  connectNamedPipe() {
+  connect() {
     try {
       ; BUG: ConnectNamedPipe always returns zero.
       ; ERROR_PIPE_CONNECTED is returned on success. See: https://t.ly/G86aI
@@ -99,7 +99,7 @@ class NamedPipe
 
   ; Terminate active connections to the named pipe.
   ; Ensure that any active communication is ended.
-  disconnectNamedPipe() {
+  disconnect() {
     try {
       success := DllCall("DisconnectNamedPipe", "Ptr", this.pipeHandle)
       if (this.lastErrorCode != 0 and not success) {
