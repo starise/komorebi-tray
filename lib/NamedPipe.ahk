@@ -35,15 +35,15 @@ class NamedPipe
       ; https://learn.microsoft.com/en-us/windows/win32/ipc/named-pipe-operations
       pipeHandle := DllCall(
         "CreateNamedPipe",
-        "Str", pipePath, ; Pipe path name
-        "UInt", openMode, ; Open mode: access_inbound (read only)
-        "UInt", pipeMode, ; Pipe modes: type_message | readmode_message | nowait
-        "UInt", 1, ; Max number of instances
-        "UInt", bufferSize, ; Output buffer size (in bytes)
-        "UInt", bufferSize, ; Input buffer size (in bytes)
-        "UInt", 0, ; Timeout in milliseconds
-        "Ptr", 0, ; Security attributes (default)
-        "Ptr" ; Return type: pointer (handle) to the loaded DLL
+        "Str", pipePath, ; Pipe path name.
+        "UInt", openMode, ; Open mode: access_inbound (read only).
+        "UInt", pipeMode, ; Pipe modes: type_message | readmode_message | nowait.
+        "UInt", 1, ; Max number of instances.
+        "UInt", bufferSize, ; Output buffer size (in bytes).
+        "UInt", bufferSize, ; Input buffer size (in bytes).
+        "UInt", 0, ; Timeout in milliseconds.
+        "Ptr", 0, ; Security attributes (default).
+        "Ptr" ; Return type: pointer (handle) to the loaded DLL.
       )
       if (this.lastErrorCode != 0) {
         throw Error("Failed to create a named pipe.", this.lastErrorCode)
@@ -118,7 +118,8 @@ class NamedPipe
       "UInt", 0, ; Size of the buffer for the read data (in bytes).
       "Ptr", 0, ; Variable that receives the number of bytes read.
       "PtrP", &bytesToRead, ; Bytes available to be read from the pipe.
-      "Ptr", 0 ; Bytes remaining. Zero for byte-type named pipes or anonymous pipes.
+      "Ptr", 0, ; Bytes remaining. Zero for byte-type named pipes or anonymous pipes.
+      "Int" ; Return type: nonzero (success) or zero (failed).
     )
     if ( not success or not bytesToRead) {
       return false
@@ -129,7 +130,8 @@ class NamedPipe
       "Ptr", bufferData, ; Buffer that receives data read from the pipe.
       "UInt", this.bufferSize, ; Size of the buffer for the read data (in bytes).
       "UIntP", &bytesRead, ; Variable that receives the number of bytes read.
-      "Ptr", 0 ; Overlapped flag (set to 0 for standard reading).
+      "Ptr", 0, ; Overlapped flag (set to 0 for standard reading).
+      "Int" ; Return type: nonzero (success) or zero (failed).
     )
     ; Re-check if less than 2 bytes (newlines)
     if ( not success or bytesRead <= 1) {
