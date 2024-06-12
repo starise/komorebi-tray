@@ -46,10 +46,13 @@ Class KomorebiTray
 
   ; Update tray icon with current workspace number
   static updateTrayIcon() {
-    if (FileExist("images/ico/d-" Komorebi.workspace ".ico")) {
-      TraySetIcon("images/ico/d-" Komorebi.workspace ".ico")
-    } else {
-      TraySetIcon("images/ico/app.ico")
+    if (Komorebi.workspace != Komorebi.workspaceLast) {
+      Komorebi.workspaceLast := Komorebi.workspace
+      if (Komorebi.workspace <= Komorebi.workspaceMax) {
+        TraySetIcon("images/ico/d-" Komorebi.workspace ".ico")
+      } else {
+        TraySetIcon("images/ico/app.ico")
+      }
     }
   }
 

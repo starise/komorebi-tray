@@ -25,6 +25,10 @@ Class Komorebi
   static display := 0
   ; Number of current focused workspace.
   static workspace := 0
+  ; Number of max supported workspaces.
+  static workspaceMax := 8
+  ; Number of last focused workspace.
+  static workspaceLast := 0
 
   ; Send a command to komorebic executable.
   static command(cmd) {
