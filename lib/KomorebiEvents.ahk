@@ -12,17 +12,28 @@ Class KomorebiEvents
   static lastEvent := ""
 
   ; Start listening to komorebi named pipe.
-  static start(name := "") {
-    this.pipeName := name ? name : this.pipeName
-    this.pipe.createNamedPipe()
-    this.pipe.connectNamedPipe()
-    Komorebi.subscribe(this.pipeName)
+  static start() {
+    this.openConnection()
     ; Launch subroutine for event listening.
-    SetTimer(this.listener.Bind(this), 10)
+    this.listener := ObjBindMethod(this, "listen")
+    SetTimer(this.listener, 10)
   }
 
   ; Stop listening and close the named pipe.
   static stop() {
+    SetTimer(this.listener, 0)
+    this.closeConnection()
+  }
+
+  ; Create and connect to a new named pipe
+  static openConnection() {
+    this.pipe.createNamedPipe()
+    Komorebi.subscribe(this.pipeName)
+    this.pipe.connectNamedPipe()
+  }
+
+  ; Disconnect and close active named pipe
+  static closeConnection() {
     Komorebi.unsubscribe(this.pipeName)
     this.pipe.disconnectNamedPipe()
     this.pipe.closeHandle()
@@ -33,8 +44,12 @@ Class KomorebiEvents
 
   ; Listen to komorebi messages on the pipe.
   ; Keep `KomorebiEvents.lastEvent` updated.
-  static listener() {
+  static listen() {
     event := this.pipe.getData()
+    if ( not this.pipe.pipeConnected) {
+      this.closeConnection()
+      this.openConnection()
+    }
     if (event and event != this.lastEvent) {
       this.lastEvent := JSON.Load(event)["state"]
       Komorebi.isPaused := this.lastEvent["is_paused"]
