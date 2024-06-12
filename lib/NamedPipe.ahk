@@ -42,7 +42,8 @@ class NamedPipe
         "UInt", bufferSize, ; Output buffer size (in bytes)
         "UInt", bufferSize, ; Input buffer size (in bytes)
         "UInt", 0, ; Timeout in milliseconds
-        "Ptr", 0 ; Security attributes (default)
+        "Ptr", 0, ; Security attributes (default)
+        "Ptr" ; Return type: pointer (handle) to the loaded DLL
       )
       if (this.lastErrorCode != 0) {
         throw Error("Failed to create a named pipe.", this.lastErrorCode)
