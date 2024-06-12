@@ -35,6 +35,16 @@ Class Komorebi
     RunWait(Format("komorebic.exe {}", cmd), , "Hide")
   }
 
+  ; Start komorebi.exe with autohotkey config.
+  static start() {
+    this.command("start --ahk")
+  }
+
+  ; Stop komorebi.exe process.
+  static stop() {
+    this.command("stop")
+  }
+
   ; Reload komorebi.ahk config file.
   static reloadConfigAhk() {
     this.command("reload-configuration")

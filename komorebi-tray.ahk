@@ -61,9 +61,13 @@ Startup() {
     FileAppend(profiles[1], KomorebiProfile.stored)
   }
 
+  if ( not ProcessExist("komorebi.exe")) {
+    Komorebi.start()
+  }
+
+  KomorebiEvents.start()
   KomorebiTray.start(profiles)
 }
 
 TraySetIcon("images/ico/app.ico")
-KomorebiEvents.start()
 Startup()
