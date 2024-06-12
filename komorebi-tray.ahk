@@ -61,7 +61,7 @@ Startup() {
     FileAppend(profiles[1], KomorebiProfile.stored)
   }
 
-  if ( not ProcessExist("komorebi.exe")) {
+  if ( not Komorebi.isRunning) {
     Komorebi.start()
   }
 

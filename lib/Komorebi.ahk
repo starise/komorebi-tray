@@ -19,6 +19,8 @@ Class Komorebi
   ; Default applications.yaml file path.
   static configYaml => this.CONFIG_HOME "\applications.yaml"
 
+  ; Return true if komorebi.exe is running in background
+  static isRunning => ProcessExist("komorebi.exe") ? true : false
   ; True if komorebi is paused.
   static isPaused := false
   ; Number of current focused display.
