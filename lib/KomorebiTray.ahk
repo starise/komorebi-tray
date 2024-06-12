@@ -1,3 +1,4 @@
+#Include Komorebi.ahk
 #Include KomorebiEvents.ahk
 #Include KomorebiProfile.ahk
 
