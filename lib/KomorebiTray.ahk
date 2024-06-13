@@ -92,6 +92,7 @@ Class KomorebiTray
       } else {
         TraySetIcon("images/ico/app.ico")
       }
+      A_IconTip := Komorebi.workspaceName " @ " Komorebi.displayName
     }
   }
 

@@ -61,7 +61,10 @@ Class KomorebiEvents
       Komorebi.isPaused := this.lastEvent["is_paused"]
       Komorebi.display := this.lastEvent["monitors"]["focused"] + 1
       displayData := this.lastEvent["monitors"]["elements"][Komorebi.display]
+      Komorebi.displayName := displayData["name"]
       Komorebi.workspace := displayData["workspaces"]["focused"] + 1
+      workspaceData := displayData["workspaces"]["elements"][Komorebi.workspace]
+      Komorebi.workspaceName := workspaceData["name"]
     }
   }
 }
