@@ -17,11 +17,11 @@ Startup() {
     Switch userChoice {
       Case "Continue":
         Run("https://github.com/starise/komorebi-tray")
-        KomorebiTray.exit()
+        ExitApp()
       Case "TryAgain":
-        KomorebiTray.reload()
+        Reload()
       Default:
-        KomorebiTray.exit()
+        ExitApp()
     }
   }
 
@@ -62,6 +62,17 @@ Startup() {
   }
 
   if ( not Komorebi.isRunning) {
+    try {
+      RunWait(("komorebic.exe"), , "Hide")
+    }
+    catch {
+      MsgBox(
+        "Komorebi not found.`n" .
+        "Install it and try again."
+      )
+      ExitApp()
+    }
+
     Komorebi.start()
   }
 
