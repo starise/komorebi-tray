@@ -26,6 +26,21 @@ Class KomorebiTray
     TraySetIcon("images/ico/app.ico")
   }
 
+  ; Pause komorebi only.
+  static pause(name, pos, menu) {
+    Komorebi.pause()
+    if (Komorebi.isPaused) {
+      TraySetIcon("images/ico/pause.ico")
+    } else {
+      TraySetIcon("images/ico/d-" Komorebi.workspace ".ico")
+    }
+    if (name = "Pause") {
+      menu.Rename("Pause", "Resume")
+    } else {
+      menu.Rename("Resume", "Pause")
+    }
+  }
+
   ; Reload the entire app.
   static reload(*) {
     KomorebiEvents.stop()
@@ -59,8 +74,11 @@ Class KomorebiTray
     this.komorebiMenu.Add("Restart", this.restart)
     this.komorebiMenu.Add("Stop", this.stop)
     this.mainMenu.Add() ; separator
+    this.mainMenu.Add("Pause", ObjBindMethod(this, "pause"))
     this.mainMenu.Add("Reload", this.reload)
     this.mainMenu.Add("Exit", this.exit)
+    this.mainMenu.Default := "Pause"
+    this.mainMenu.ClickCount := 1
     ; Launch subroutine for tray icon updates.
     SetTimer(this.updateTrayIcon.Bind(this), 10)
   }

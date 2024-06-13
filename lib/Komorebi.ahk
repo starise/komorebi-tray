@@ -47,6 +47,11 @@ Class Komorebi
     this.command("stop")
   }
 
+  ; Toggle on/off window tiling management.
+  static pause() {
+    this.command("toggle-pause")
+  }
+
   ; Reload komorebi.ahk config file.
   static reloadConfigAhk() {
     this.command("reload-configuration")
