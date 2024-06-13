@@ -6,9 +6,25 @@ Class KomorebiTray
 {
   ; Main tray menu object.
   static mainMenu := A_TrayMenu
-
   ; Profile menu instance.
   static profileMenu := Menu()
+  ; Profile menu instance.
+  static komorebiMenu := Menu()
+
+  ; Restart komorebi only.
+  static restart(*) {
+    KomorebiEvents.stop()
+    Komorebi.stop()
+    Komorebi.start()
+    KomorebiEvents.start()
+  }
+
+  ; Stop komorebi only.
+  static stop(*) {
+    KomorebiEvents.stop()
+    Komorebi.stop()
+    TraySetIcon("images/ico/app.ico")
+  }
 
   ; Reload the entire app.
   static reload(*) {
@@ -39,6 +55,10 @@ Class KomorebiTray
     }
     this.profileMenu.Check(KomorebiProfile.active)
     this.mainMenu.Add("Profiles", this.profileMenu)
+    this.mainMenu.Add("Komorebi", this.komorebiMenu)
+    this.komorebiMenu.Add("Restart", this.restart)
+    this.komorebiMenu.Add("Stop", this.stop)
+    this.mainMenu.Add() ; separator
     this.mainMenu.Add("Reload", this.reload)
     this.mainMenu.Add("Exit", this.exit)
     ; Launch subroutine for tray icon updates.
