@@ -13,7 +13,11 @@ Class KomorebiEvents
   static lastEvent := ""
   ; Method for komorebi event listening.
   static listener := ObjBindMethod(this, "listen")
+  ; Method to wait for komorebi to be launched.
+  static waiter := ObjBindMethod(this, "wait")
 
+  ; Convert a raw json string into a json object.
+  static toJson(raw) => JSON.Load(raw)["state"]
 
   ; Start listening to komorebi named pipe.
   static start() {
@@ -41,15 +45,21 @@ Class KomorebiEvents
     this.pipe.closeHandle()
   }
 
-  ; Convert a raw json string into a json object.
-  static toJson(raw) => JSON.Load(raw)["state"]
+  ; Wait for komorebi to exit the waiting state.
+  static wait() {
+    if (Komorebi.isRunning) {
+      KomorebiEvents.start()
+      KomorebiTray.start()
+      SetTimer(this.waiter, 0)
+    }
+  }
 
   ; Listen to komorebi messages on the pipe.
-  ; Keep `KomorebiEvents.lastEvent` updated.
   static listen() {
     event := this.pipe.getData()
     if ( not this.pipe.pipeConnected) {
       KomorebiTray.stop()
+      SetTimer(this.waiter, 2000)
     }
     if (event and event != this.lastEvent) {
       this.lastEvent := JSON.Load(event)["state"]

@@ -16,13 +16,14 @@ Class KomorebiTray
   ; Method to update app's current status
   static statusUpdater := ObjBindMethod(this, "updateStatus")
 
+  ; Start tray listener
   static start() {
     this.mainMenu.Enable("Pause")
     this.mainMenu.Default := "Pause"
     SetTimer(this.statusUpdater, 10)
   }
 
-  ; Stop komorebi only.
+  ; Stop komorebi and trigger a waiting state.
   static stop(*) {
     TraySetIcon("images/ico/app.ico")
     A_IconTip := "Waiting for Komorebi..."
@@ -35,7 +36,7 @@ Class KomorebiTray
     SetTimer(this.statusUpdater, 0)
   }
 
-  ; Restart komorebi only.
+  ; Restart komorebi.
   static restart(*) {
     KomorebiEvents.stop()
     Komorebi.stop()
@@ -44,7 +45,7 @@ Class KomorebiTray
     KomorebiTray.start()
   }
 
-  ; Pause komorebi only.
+  ; Pause komorebi.
   static pause(name, pos, menu) {
     Komorebi.pause()
     if (Komorebi.isPaused) {
