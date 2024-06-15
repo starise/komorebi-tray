@@ -25,24 +25,20 @@ Class KomorebiTray
 
   ; Stop komorebi and trigger a waiting state.
   static stop(*) {
+    Komorebi.stop()
     TraySetIcon("images/ico/app.ico")
     A_IconTip := "Waiting for Komorebi..."
     Popup.new("Komorebi disconnected", 2000)
     this.mainMenu.Default := ""
     this.mainMenu.Rename(this.pauseName, "Pause")
     this.mainMenu.Disable("Pause")
-    KomorebiEvents.stop()
-    Komorebi.stop()
     SetTimer(this.statusUpdater, 0)
   }
 
   ; Restart komorebi.
   static restart(*) {
-    KomorebiEvents.stop()
     Komorebi.stop()
     Komorebi.start()
-    KomorebiEvents.start()
-    KomorebiTray.start()
   }
 
   ; Pause komorebi.

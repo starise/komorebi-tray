@@ -21,6 +21,7 @@ Class KomorebiEvents
 
   ; Start listening to komorebi named pipe.
   static start() {
+    this.pipe.create()
     this.openConnection()
     SetTimer(this.listener, 10)
   }
@@ -33,14 +34,12 @@ Class KomorebiEvents
 
   ; Create and connect to a new named pipe.
   static openConnection() {
-    this.pipe.create()
     Komorebi.subscribe(this.pipeName)
     this.pipe.connect()
   }
 
   ; Disconnect and close active named pipe.
   static closeConnection() {
-    Komorebi.unsubscribe(this.pipeName)
     this.pipe.disconnect()
     this.pipe.closeHandle()
   }
@@ -58,6 +57,7 @@ Class KomorebiEvents
   static listen() {
     event := this.pipe.getData()
     if ( not this.pipe.pipeConnected) {
+      KomorebiEvents.stop()
       KomorebiTray.stop()
       SetTimer(this.waiter, 2000)
     }
