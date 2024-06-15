@@ -2,7 +2,10 @@
 
 A tray app to manage komorebi tiling window manager for Windows. 
 
-- Switch between custom AutoHotkey configuration profiles.
+- Switch between multiple AutoHotkey configuration profiles.
+- Start, Stop or Pause komorebi using the tray menu.
+- Click on the tray icon to Pause/Resume komorebi.
+- Show the current workspace number on tray icon.
 
 ## How to start
 
