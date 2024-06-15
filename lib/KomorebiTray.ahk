@@ -1,6 +1,7 @@
 #Include Komorebi.ahk
 #Include KomorebiEvents.ahk
 #Include KomorebiProfile.ahk
+#Include Popup.ahk
 
 Class KomorebiTray
 {
@@ -93,6 +94,7 @@ Class KomorebiTray
         TraySetIcon("images/ico/app.ico")
       }
       A_IconTip := Komorebi.workspaceName " @ " Komorebi.displayName
+      Popup.new(Komorebi.workspaceName, 2000)
     }
   }
 

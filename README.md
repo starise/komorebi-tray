@@ -6,6 +6,9 @@ A tray app to manage komorebi tiling window manager for Windows.
 - Start, Stop or Pause komorebi using the tray menu.
 - Click on the tray icon to Pause/Resume komorebi.
 - Show the current workspace number on tray icon.
+- Show workspace name popup on workspace change.
+
+![Komorebi Tray Preview](images/preview.png)
 
 ## How to start
 
