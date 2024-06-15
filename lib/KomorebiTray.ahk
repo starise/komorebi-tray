@@ -11,6 +11,29 @@ Class KomorebiTray
   static profileMenu := Menu()
   ; Profile menu instance.
   static komorebiMenu := Menu()
+  ; Get the current pause menu label
+  static pauseName => Komorebi.isPaused ? "Resume" : "Pause"
+  ; Method to update app's current status
+  static statusUpdater := ObjBindMethod(this, "updateStatus")
+
+  static start() {
+    this.mainMenu.Enable("Pause")
+    this.mainMenu.Default := "Pause"
+    SetTimer(this.statusUpdater, 10)
+  }
+
+  ; Stop komorebi only.
+  static stop(*) {
+    TraySetIcon("images/ico/app.ico")
+    A_IconTip := "Waiting for Komorebi..."
+    Popup.new("Komorebi disconnected", 2000)
+    this.mainMenu.Default := ""
+    this.mainMenu.Rename(this.pauseName, "Pause")
+    this.mainMenu.Disable("Pause")
+    KomorebiEvents.stop()
+    Komorebi.stop()
+    SetTimer(this.statusUpdater, 0)
+  }
 
   ; Restart komorebi only.
   static restart(*) {
@@ -18,13 +41,7 @@ Class KomorebiTray
     Komorebi.stop()
     Komorebi.start()
     KomorebiEvents.start()
-  }
-
-  ; Stop komorebi only.
-  static stop(*) {
-    KomorebiEvents.stop()
-    Komorebi.stop()
-    TraySetIcon("images/ico/app.ico")
+    KomorebiTray.start()
   }
 
   ; Pause komorebi only.
@@ -61,7 +78,7 @@ Class KomorebiTray
   static uncheckProfile(profile) => this.profileMenu.Uncheck(profile)
 
   ; Generate the tray menu with a list of available profiles.
-  static start(profiles) {
+  static create(profiles) {
     this.mainMenu.Delete()
     for (profile in profiles) {
       this.profileMenu.Add(
@@ -72,20 +89,19 @@ Class KomorebiTray
     this.profileMenu.Check(KomorebiProfile.active)
     this.mainMenu.Add("Profiles", this.profileMenu)
     this.mainMenu.Add("Komorebi", this.komorebiMenu)
-    this.komorebiMenu.Add("Restart", this.restart)
-    this.komorebiMenu.Add("Stop", this.stop)
+    this.komorebiMenu.Add("Restart", ObjBindMethod(this, "restart"))
+    this.komorebiMenu.Add("Stop", ObjBindMethod(this, "stop"))
     this.mainMenu.Add() ; separator
     this.mainMenu.Add("Pause", ObjBindMethod(this, "pause"))
-    this.mainMenu.Add("Reload", this.reload)
-    this.mainMenu.Add("Exit", this.exit)
-    this.mainMenu.Default := "Pause"
+    this.mainMenu.Add("Reload", ObjBindMethod(this, "reload"))
+    this.mainMenu.Add("Exit", ObjBindMethod(this, "exit"))
     this.mainMenu.ClickCount := 1
-    ; Launch subroutine for tray icon updates.
-    SetTimer(this.updateTrayIcon.Bind(this), 10)
+
+    this.start()
   }
 
-  ; Update tray icon with current workspace number
-  static updateTrayIcon() {
+  ; Update status with current data available
+  static updateStatus() {
     if (Komorebi.workspace != Komorebi.workspaceLast) {
       Komorebi.workspaceLast := Komorebi.workspace
       if (Komorebi.workspace <= Komorebi.workspaceMax) {

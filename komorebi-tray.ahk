@@ -77,7 +77,7 @@ Startup() {
   }
 
   KomorebiEvents.start()
-  KomorebiTray.start(profiles)
+  KomorebiTray.create(profiles)
 }
 
 TraySetIcon("images/ico/app.ico")
