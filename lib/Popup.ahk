@@ -7,6 +7,7 @@ Class Popup
 
   ; Default style settings
   static DEFAULT_FONT_SIZE := "10"
+  static DEFAULT_FONT_NAME := "Segoe UI"
   static DEFAULT_FONT_COLOR := "white"
   static DEFAULT_BG_COLOR := "242424"
   static DEFAULT_TIMER := 2000
@@ -20,7 +21,7 @@ Class Popup
   ; Animation time to be shown (in ms).
   static animationTime := 10
 
-  ; Build popup popup message.
+  ; Create and show a popup message on-screen.
   static new(
     message,
     timer := this.DEFAULT_TIMER,
@@ -39,8 +40,7 @@ Class Popup
     MonitorGetWorkArea(, &workspaceLeft, &workspaceTop, &workspaceRight, &workspaceBottom)
     this.Gui.Opt("-Caption +ToolWindow +LastFound +AlwaysOnTop +Border")
     this.Gui.BackColor := bgColor
-    ;this.Gui.SetFont("s10 cwhite")
-    this.Gui.SetFont(Format("s{1} c{2}", fontSize, fontColor), "Segoe UI")
+    this.Gui.SetFont(Format("s{1} c{2}", fontSize, fontColor), this.DEFAULT_FONT_NAME)
     this.Gui.Add("Text", "Center", message)
     this.Gui.Show("Hide")
     this.ID := WinExist()
