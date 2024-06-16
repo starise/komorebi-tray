@@ -56,10 +56,16 @@ Class KomorebiEvents
   ; Listen to komorebi messages on the pipe.
   static listen() {
     event := this.pipe.getData()
-    if ( not this.pipe.pipeConnected) {
+    if ( not this.pipe.pipeHandle) {
       KomorebiEvents.stop()
       KomorebiTray.stop()
       SetTimer(this.waiter, 2000)
+    }
+    ; When komorebi is paused before the app is started, the pipe
+    ; is reported as "bad": resume komorebi and try to reconnect.
+    if (this.pipe.lastErrorCode = this.pipe.ERROR_BAD_PIPE) {
+      Komorebi.togglePause()
+      KomorebiEvents.start()
     }
     if (event and event != this.lastEvent) {
       this.lastEvent := JSON.Load(event)["state"]

@@ -12,15 +12,15 @@ Class KomorebiTray
   ; Profile menu instance.
   static komorebiMenu := Menu()
   ; Get the current pause menu label
-  static pauseName => Komorebi.isPaused ? "Resume" : "Pause"
+  static pauseName := "Pause"
   ; Method to update app's current status
   static statusUpdater := ObjBindMethod(this, "updateStatus")
 
   ; Start tray listener
   static start() {
-    this.mainMenu.Enable("Pause")
-    this.mainMenu.Default := "Pause"
     SetTimer(this.statusUpdater, 10)
+    this.mainMenu.Enable(this.pauseName)
+    this.mainMenu.Default := this.pauseName
   }
 
   ; Stop komorebi and trigger a waiting state.
@@ -42,29 +42,17 @@ Class KomorebiTray
   }
 
   ; Pause komorebi.
-  static pause(name, pos, menu) {
-    Komorebi.pause()
-    if (Komorebi.isPaused) {
-      TraySetIcon("images/ico/pause.ico")
-    } else {
-      TraySetIcon("images/ico/d-" Komorebi.workspace ".ico")
-    }
-    if (name = "Pause") {
-      menu.Rename("Pause", "Resume")
-    } else {
-      menu.Rename("Resume", "Pause")
-    }
+  static pause(*) {
+    Komorebi.togglePause()
   }
 
   ; Reload the entire app.
   static reload(*) {
-    KomorebiEvents.stop()
     Reload()
   }
 
   ; Exit the entire app.
   static exit(*) {
-    KomorebiEvents.stop()
     ExitApp()
   }
 
@@ -108,6 +96,16 @@ Class KomorebiTray
       }
       A_IconTip := Komorebi.workspaceName " @ " Komorebi.displayName
       Popup.new(Komorebi.workspaceName, 2000)
+    }
+    if (Komorebi.isPaused and this.pauseName = "Pause") {
+      this.pauseName := "Resume"
+      this.mainMenu.Rename("Pause", "Resume")
+      TraySetIcon("images/ico/pause.ico")
+    }
+    if ( not Komorebi.isPaused and this.pauseName = "Resume") {
+      this.pauseName := "Pause"
+      this.mainMenu.Rename("Resume", "Pause")
+      TraySetIcon("images/ico/d-" Komorebi.workspace ".ico")
     }
   }
 

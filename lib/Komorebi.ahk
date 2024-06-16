@@ -52,7 +52,7 @@ Class Komorebi
   }
 
   ; Toggle on/off window tiling management.
-  static pause() {
+  static togglePause() {
     this.command("toggle-pause")
   }
 

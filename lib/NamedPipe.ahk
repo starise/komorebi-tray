@@ -9,7 +9,11 @@ class NamedPipe
 
   ; The handle is invalid.
   ERROR_INVALID_HANDLE := 6
-  ; All pipe instances are busy.
+  ; The pipe has been ended.
+  ERROR_BROKEN_PIPE := 109
+  ; The pipe state is invalid.
+  ERROR_BAD_PIPE := 230
+  ; The pipe is being closed.
   ERROR_PIPE_BUSY := 231
   ; The pipe is being closed.
   ERROR_NO_DATA := 232
@@ -29,7 +33,6 @@ class NamedPipe
     this.pipeMode := pipeMode
     this.bufferSize := bufferSize
     this.pipeHandle := -1
-    this.pipeConnected := false
   }
 
   isValid[pipe] => pipe >= 0
@@ -78,10 +81,7 @@ class NamedPipe
       DllCall("ConnectNamedPipe", "Ptr", this.pipeHandle, "Ptr", 0)
       if (this.lastErrorCode = this.ERROR_PIPE_CONNECTED) {
         OutputDebug("Success. Pipe " this.pipeHandle " successfully connected.")
-        this.pipeConnected := true
-        Return true
       } else {
-        this.pipeConnected := false
         throw Error("Failed connection to the named pipe.", this.lastErrorCode)
       }
     } catch Error as e {
@@ -138,11 +138,7 @@ class NamedPipe
       "Ptr", 0, ; Bytes remaining. Zero for byte-type named pipes or anonymous pipes.
       "Int" ; Return type: nonzero (success) or zero (failed).
     )
-    if ( not success) {
-      this.pipeConnected := false
-      return false
-    }
-    if ( not bytesToRead) {
+    if ( not success or not bytesToRead) {
       return false
     }
     success := DllCall(
@@ -170,6 +166,12 @@ class NamedPipe
       case this.ERROR_INVALID_HANDLE:
         code := "ERROR_INVALID_HANDLE"
         message := "The handle is invalid."
+      case this.ERROR_BROKEN_PIPE:
+        code := "ERROR_BROKEN_PIPE"
+        message := "The pipe has been ended."
+      case this.ERROR_BAD_PIPE:
+        code := "ERROR_BAD_PIPE"
+        message := "The pipe state is invalid."
       case this.ERROR_PIPE_BUSY:
         code := "ERROR_PIPE_BUSY"
         message := "All pipe instances are busy."
