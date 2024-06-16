@@ -111,12 +111,13 @@ Class KomorebiTray
     }
   }
 
-  ; Activate a new given profile and disable the previous one.
+  ; Activate a new given profile and disable the previous active one.
   static enableProfile(profile, *) {
     if (KomorebiProfile.isDifferent(profile)) {
       this.checkProfile(profile)
       this.uncheckProfile(KomorebiProfile.active)
       KomorebiProfile.enable(profile)
+      Popup.new(profile " activated", 2000)
     }
   }
 }
