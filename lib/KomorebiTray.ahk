@@ -80,10 +80,10 @@ Class KomorebiTray
     for (profile in profiles) {
       this.profileMenu.Add(
         profile,
-        this.enableProfile.Bind(this, profile)
+        ObjBindMethod(this, "enableProfile", profile)
       )
     }
-    this.profileMenu.Check(KomorebiProfile.active)
+    this.checkProfile(KomorebiProfile.active)
     this.mainMenu.Add("Profiles", this.profileMenu)
     this.mainMenu.Add("Komorebi", this.komorebiMenu)
     this.komorebiMenu.Add("Restart", ObjBindMethod(this, "restart"))
@@ -113,8 +113,10 @@ Class KomorebiTray
 
   ; Activate a new given profile and disable the previous one.
   static enableProfile(profile, *) {
-    this.checkProfile(profile)
-    this.uncheckProfile(KomorebiProfile.active)
-    KomorebiProfile.enable(profile)
+    if (KomorebiProfile.isDifferent(profile)) {
+      this.checkProfile(profile)
+      this.uncheckProfile(KomorebiProfile.active)
+      KomorebiProfile.enable(profile)
+    }
   }
 }
