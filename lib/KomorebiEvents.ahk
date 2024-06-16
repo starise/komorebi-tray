@@ -55,8 +55,9 @@ Class KomorebiEvents
 
   ; Listen to komorebi messages on the pipe.
   static listen() {
-    event := this.pipe.getData()
-    if ( not this.pipe.pipeHandle) {
+    ; The connection has been lost, maybe komorebi has been stopped.
+    ; Stop listening and wait for komorebi to be started.
+    if (this.pipe.lastErrorCode = this.pipe.ERROR_BROKEN_PIPE) {
       KomorebiEvents.stop()
       KomorebiTray.stop()
       SetTimer(this.waiter, 2000)
@@ -67,6 +68,7 @@ Class KomorebiEvents
       Komorebi.togglePause()
       KomorebiEvents.start()
     }
+    event := this.pipe.getData()
     if (event and event != this.lastEvent) {
       this.lastEvent := JSON.Load(event)["state"]
       Komorebi.isPaused := this.lastEvent["is_paused"]

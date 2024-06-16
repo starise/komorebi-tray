@@ -185,6 +185,6 @@ class NamedPipe
         code := "ERROR_PIPE_LISTENING"
         message := "Waiting for a process to open the other end of the pipe."
     }
-    OutputDebug ("[" A_Now "] " String(code) ": " message)
+    OutputDebug("[" A_Now "] " String(code) ": " message)
   }
 }
