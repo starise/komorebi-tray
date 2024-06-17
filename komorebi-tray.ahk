@@ -6,11 +6,12 @@ Persistent
 #Include %A_ScriptDir%\lib\KomorebiEvents.ahk
 #Include %A_ScriptDir%\lib\KomorebiProfile.ahk
 #Include %A_ScriptDir%\lib\KomorebiTray.ahk
+#Include %A_ScriptDir%\lib\Settings.ahk
 
 Startup() {
   if ( not Komorebi.CONFIG_HOME) {
     userChoice := MsgBox(
-      "KOMOREBI_CONFIG_HOME is required.`n`n" .
+      Format("══ {:U} {:T} ══`n`n", "KOMOREBI_CONFIG_HOME", "is required")
       "Press [Continue] to read the documentation.`n", ,
       "CancelTryAgainContinue"
     )
@@ -48,17 +49,21 @@ Startup() {
 
   if ( not DirExist(KomorebiProfile.folder)) {
     MsgBox(
-      "Profile folder not detected.`n`n" .
+      Format("══ {:T} ══`n`n", "Profile folder not detected")
       "Creating new defaults to: " KomorebiProfile.folder
     )
     DirCopy(A_ScriptDir "\profiles", KomorebiProfile.folder)
   }
 
-  if (FileExist(KomorebiProfile.stored)) {
-    KomorebiProfile.active := FileRead(KomorebiProfile.stored)
+  if (FileExist(Settings.configFile)) {
+    KomorebiProfile.active := Settings.load("active", "profiles")
   } else {
-    KomorebiProfile.active := profiles[1]
-    FileAppend(profiles[1], KomorebiProfile.stored)
+    MsgBox(
+      Format("══ {:T} ══`n`n", "Configuration file not detected")
+      "Creating new defaults to: " Settings.configFile
+    )
+    KomorebiProfile.enable(profiles[1])
+    Settings.save(profiles[1], "active", "profiles")
   }
 
   if ( not Komorebi.isRunning) {
