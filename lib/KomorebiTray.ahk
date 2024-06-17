@@ -108,13 +108,11 @@ Class KomorebiTray
       Popup.new(Komorebi.workspaceName, 2000)
     }
     if (Komorebi.isPaused and not this.menuPaused) {
-      this.mainMenu.Disable(this.pauseName)
       this.mainMenu.Rename(this.pauseName, "Resume")
       TraySetIcon("images/ico/pause.ico")
       this.menuPaused := true
     }
     if ( not Komorebi.isPaused and this.menuPaused) {
-      this.mainMenu.Enable(this.pauseName)
       this.mainMenu.Rename(this.pauseName, "Pause")
       TraySetIcon("images/ico/d-" Komorebi.workspace ".ico")
       this.menuPaused := false
