@@ -11,28 +11,36 @@ Class KomorebiTray
   static profileMenu := Menu()
   ; Profile menu instance.
   static komorebiMenu := Menu()
-  ; Get the current pause menu label
-  static pauseName := "Pause"
+  ; Get the current pause status
+  static menuPaused := false
+  ; Get the current pause menu name
+  static pauseName => this.menuPaused ? "Resume" : "Pause"
   ; Method to update app's current status
   static statusUpdater := ObjBindMethod(this, "updateStatus")
 
   ; Start tray listener
   static start() {
     SetTimer(this.statusUpdater, 10)
+    ; Enable the pause menu
     this.mainMenu.Enable(this.pauseName)
     this.mainMenu.Default := this.pauseName
   }
 
   ; Stop komorebi and trigger a waiting state.
   static stop(*) {
+    this.waiting()
     Komorebi.stop()
+  }
+
+  static waiting() {
+    SetTimer(this.statusUpdater, 0)
+    ; Disable the pause menu
+    this.mainMenu.Disable(this.pauseName)
+    this.mainMenu.Default := ""
+    ; Tray icon in waiting mode
     TraySetIcon("images/ico/app.ico")
     A_IconTip := "Waiting for Komorebi..."
     Popup.new("Komorebi disconnected", 2000)
-    this.mainMenu.Default := ""
-    this.mainMenu.Rename(this.pauseName, "Pause")
-    this.mainMenu.Disable("Pause")
-    SetTimer(this.statusUpdater, 0)
   }
 
   ; Restart komorebi.
@@ -48,11 +56,13 @@ Class KomorebiTray
 
   ; Reload the entire app.
   static reload(*) {
+    KomorebiEvents.stop()
     Reload()
   }
 
   ; Exit the entire app.
   static exit(*) {
+    KomorebiEvents.stop()
     ExitApp()
   }
 
@@ -97,15 +107,17 @@ Class KomorebiTray
       A_IconTip := Komorebi.workspaceName " @ " Komorebi.displayName
       Popup.new(Komorebi.workspaceName, 2000)
     }
-    if (Komorebi.isPaused and this.pauseName = "Pause") {
-      this.pauseName := "Resume"
-      this.mainMenu.Rename("Pause", "Resume")
+    if (Komorebi.isPaused and not this.menuPaused) {
+      this.mainMenu.Disable(this.pauseName)
+      this.mainMenu.Rename(this.pauseName, "Resume")
       TraySetIcon("images/ico/pause.ico")
+      this.menuPaused := true
     }
-    if ( not Komorebi.isPaused and this.pauseName = "Resume") {
-      this.pauseName := "Pause"
-      this.mainMenu.Rename("Resume", "Pause")
+    if ( not Komorebi.isPaused and this.menuPaused) {
+      this.mainMenu.Enable(this.pauseName)
+      this.mainMenu.Rename(this.pauseName, "Pause")
       TraySetIcon("images/ico/d-" Komorebi.workspace ".ico")
+      this.menuPaused := false
     }
   }
 

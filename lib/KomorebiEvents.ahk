@@ -62,7 +62,7 @@ Class KomorebiEvents
     ; Stop listening and wait for komorebi to be started.
     if (this.pipe.lastErrorCode = this.pipe.ERROR_BROKEN_PIPE) {
       KomorebiEvents.stop()
-      KomorebiTray.stop()
+      KomorebiTray.waiting()
       SetTimer(this.waiter, 2000)
     }
     ; When komorebi is paused before the app is started, the pipe
