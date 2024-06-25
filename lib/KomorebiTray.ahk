@@ -32,6 +32,7 @@ Class KomorebiTray
     Komorebi.stop()
   }
 
+  ; Put the tray into a waiting state.
   static waiting() {
     SetTimer(this.statusUpdater, 0)
     ; Disable the pause menu

@@ -45,8 +45,7 @@ Startup() {
     }
   }
 
-  profiles := KomorebiProfile.getAll()
-
+  ; Add default profiles if they don't exist
   if ( not DirExist(KomorebiProfile.folder)) {
     MsgBox(
       Format("══ {:T} ══`n`n", "Profile folder not detected")
@@ -55,6 +54,9 @@ Startup() {
     DirCopy(A_ScriptDir "\profiles", KomorebiProfile.folder)
   }
 
+  ; Load all profiles from the folder
+  profiles := KomorebiProfile.getAll()
+
   if (FileExist(Settings.configFile)) {
     KomorebiProfile.active := Settings.load("active", "profiles")
   } else {
@@ -62,7 +64,7 @@ Startup() {
       Format("══ {:T} ══`n`n", "Configuration file not detected")
       "Creating new defaults to: " Settings.configFile
     )
-    KomorebiProfile.enable(profiles[1])
+    KomorebiProfile.active := profiles[1]
     Settings.save(profiles[1], "active", "profiles")
   }
 
@@ -83,6 +85,7 @@ Startup() {
 
   KomorebiEvents.start()
   KomorebiTray.create(profiles)
+  KomorebiProfile.enable(KomorebiProfile.active)
 }
 
 TraySetIcon("images/ico/app.ico")
