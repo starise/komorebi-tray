@@ -1,3 +1,16 @@
+; komorebi-tray.ahk:
+; A tray app for komorebi tiling window manager.
+; Author: Andrea Brandi <git@andreabrandi.com>
+
+;@Ahk2Exe-Let version=0.1.0
+;@Ahk2Exe-SetVersion %U_version%
+;@Ahk2Exe-SetProductVersion %U_version%
+;@Ahk2Exe-SetName Komorebi Tray
+;@Ahk2Exe-SetDescription Komorebi Tray
+;@Ahk2Exe-SetCopyright Copyright (c) 2024`, Andrea Brandi
+;@Ahk2Exe-SetLanguage 0x0409
+;@Ahk2Exe-SetMainIcon ./images/ico/app.ico
+
 #Requires AutoHotkey v2.0
 #SingleInstance Force
 Persistent
