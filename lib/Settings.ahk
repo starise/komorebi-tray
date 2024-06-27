@@ -3,7 +3,7 @@
 Class Settings
 {
   ; Config file path that contains app's settings.
-  static configFile := Komorebi.CONFIG_HOME "\launcher.ini"
+  static configFile := Komorebi.CONFIG_HOME "\komorebi-tray.ini"
 
   ; Write a "key=value" into a [section] in the configuration file
   static save(value, key, section) {
