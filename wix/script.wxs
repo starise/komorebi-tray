@@ -1,0 +1,80 @@
+﻿<Wix
+  xmlns="http://wixtoolset.org/schemas/v4/wxs"
+  xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui"
+>
+  <Package
+    UpgradeCode="008acf35-b074-43f6-8239-275c7e6980fa"
+    Version="0.1.0"
+    Language="1033"
+    Name="Komorebi Tray"
+    Manufacturer="Andrea Brandi"
+    InstallerVersion="400"
+  >
+    <ui:WixUI Id="WixUI_InstallDir" InstallDirectory="ApplicationRootDir" />
+    <WixVariable Id="WixUILicenseRtf" Value="wix\LICENSE.rtf" />
+    <Media Id="1" Cabinet="setup.cab" EmbedCab="yes" />
+
+    <DirectoryRef Id="ApplicationRootDir">
+      <Component
+        Id="komorebitray.exe"
+        Guid="38dcbf9a-3b50-4e5f-a6b3-e3b4b60831c1"
+      >
+        <File
+          Id="komorebitray.exe"
+          Source="komorebi-tray.exe"
+          KeyPath="yes"
+          Checksum="yes"
+        />
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component
+        Id="ApplicationShortcut"
+        Guid="db1188f5-789a-415f-a405-2336abf91976"
+      >
+        <Shortcut
+          Id="ApplicationStartMenuShortcut"
+          Name="Komorebi Tray"
+          Description="A tray app for komorebi tiling window manager"
+          Target="[#komorebitray.exe]"
+          WorkingDirectory="ApplicationRootDir"
+        />
+        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall" />
+        <RegistryValue
+          Root="HKCU"
+          Key="Software\Andrea Brandi\Komorebi Tray"
+          Name="installed"
+          Type="integer"
+          Value="1"
+          KeyPath="yes"
+        />
+      </Component>
+    </DirectoryRef>
+
+    <Feature Id="MainApplication" Title="Main Application" Level="1">
+      <Files
+        Directory="ApplicationRootDir"
+        Subdirectory="images"
+        Include="..\images\**"
+      >
+        <Exclude Files="..\images\png\**" />
+        <Exclude Files="..\images\preview.png" />
+      </Files>
+      <Files
+        Directory="ApplicationRootDir"
+        Subdirectory="profiles"
+        Include="..\profiles\**"
+      />
+      <ComponentRef Id="komorebitray.exe" />
+      <ComponentRef Id="ApplicationShortcut" />
+    </Feature>
+
+    <StandardDirectory Id="ProgramFiles64Folder">
+      <Directory Id="ApplicationRootDir" Name="Komorebi Tray" />
+    </StandardDirectory>
+    <StandardDirectory Id="ProgramMenuFolder">
+      <Directory Id="ApplicationProgramsFolder" Name="Komorebi Tray" />
+    </StandardDirectory>
+  </Package>
+</Wix>
