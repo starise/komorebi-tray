@@ -53,7 +53,7 @@ Class Popup
     this.hide(timer)
   }
 
-  ; Animate (show or hide) the current popup
+  ; Animate (show or hide) the current popup.
   ; https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-animatewindow
   static animate(flag) {
     DllCall(
@@ -64,24 +64,23 @@ Class Popup
     )
   }
 
-  ; If a popup already exists, destroy it
+  ; If a popup already exists, destroy it.
   static cleanCache() => this.ID ? this.destroy() : false
 
   ; Helpers to trigger show/hide animations
   static push() => this.animate(this.AW_FADE_IN)
   static pull() => this.animate(this.AW_FADE_OUT)
 
-  ; Hide current popup message after a certain time
+  ; Hide current popup message after a certain time.
   static hide(timer := this.DEFAULT_TIMER) {
     this.instance := ObjBindMethod(this, "pull")
     SetTimer(this.instance, timer)
   }
 
-  ; Destroy current popup
+  ; Destroy current popup.
   static destroy() {
     SetTimer(this.instance, 0)
     this.Gui.Destroy()
     this.Gui := Gui()
-    Return true
   }
 }
