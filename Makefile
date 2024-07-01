@@ -37,4 +37,4 @@ build: clean compile zip msi
 
 # Create a GitHub release and publish .zip and .msi files
 release:
-	gh release create v$(VERSION) $(BUILD_ZIP) $(BUILD_MSI) --repo $(GIT_REPO) --title "Release v$(VERSION)" --notes "Release version $(VERSION)"
+	gh release create $(VERSION) $(BUILD_ZIP) $(BUILD_MSI) --repo $(GIT_REPO) --title "Release v$(VERSION)" --notes "Release version $(VERSION)"
