@@ -1,4 +1,4 @@
-# <img src="images/png/app.png" width="24"> komorebi-tray
+# <img src="images/png/app.png" width="24"> Komorebi Tray
 
 A tray app to manage komorebi tiling window manager for Windows. 
 
@@ -16,7 +16,14 @@ Komorebi can be started, stopped and paused externally and the app will adjust a
 
 ## Quick start
 
-This app does not require changes to your default komorebi configuration. The only requirement is the `KOMOREBI_CONFIG_HOME` environment variable set in your `Microsoft.PowerShell_profile.ps1`, which is used to read the current komorebi configuration and for multiple AutoHotkey profile management.
+Install Komorebi Tray using the latest [MSI Windows Installer](https://github.com/starise/komorebi-tray/releases/latest) or **Scoop**.
+
+```powershell
+scoop bucket add confetti https://github.com/starise/Scoop-Confetti
+scoop install komorebi-tray
+```
+
+No changes to your default komorebi configuration are needed. The only requirement is the `KOMOREBI_CONFIG_HOME` environment variable set in your `Microsoft.PowerShell_profile.ps1`, which is used to read the current komorebi configuration and for multiple AutoHotkey profile management.
 
 ```powershell
 # Microsoft.PowerShell_profile.ps1
