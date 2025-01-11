@@ -40,6 +40,7 @@ Startup() {
   }
 
   if ( not FileExist(Komorebi.configJson)) {
+    DirCreate(Komorebi.CONFIG_HOME)
     if (FileExist(Komorebi.userProfileJson)) {
       MsgBox(
         "Detected: " Komorebi.userProfileJson "`n`n" .
