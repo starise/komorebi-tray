@@ -75,6 +75,11 @@ Class Komorebi
     this.command(Format("unsubscribe-pipe {}", pipe_name))
   }
 
+  ; Fetch the latest version of applications.json.
+  static getConfigAppJson() {
+    this.command("fetch-app-specific-configuration")
+  }
+
   ; Fetch and create needed configuration files
   static newConfigFiles() {
     ; Download latest komorebi.json example
@@ -87,5 +92,7 @@ Class Komorebi
     jsonConfig := StrReplace(jsonConfig, "$Env:USERPROFILE", "$Env:KOMOREBI_CONFIG_HOME")
     FileDelete(this.configJson)
     FileAppend(jsonConfig, this.configJson)
+    ; Fetch the latest version of applications.json
+    this.getConfigAppJson()
   }
 }
