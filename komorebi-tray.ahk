@@ -2,7 +2,7 @@
 ; A tray app for komorebi tiling window manager.
 ; Author: Andrea Brandi <git@andreabrandi.com>
 
-;@Ahk2Exe-Let version=0.1.0
+;@Ahk2Exe-Let version=0.1.1
 ;@Ahk2Exe-SetVersion %U_version%
 ;@Ahk2Exe-SetProductVersion %U_version%
 ;@Ahk2Exe-SetName Komorebi Tray
