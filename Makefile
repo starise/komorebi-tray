@@ -17,7 +17,8 @@ help:
 
 # Remove the build folder
 clean:
-	rm -rf $(APP_EXE) build
+	-pwsh -noprofile -command ri $(APP_EXE) -Force
+	-pwsh -noprofile -command ri $(BUILD_DIR) -Force -Recurse
 
 # Compile AHK files and compress with UPX
 compile:
@@ -26,7 +27,7 @@ compile:
 
 # Compile and create a ZIP portable
 zip: compile
-	zip -r $(BUILD_ZIP) $(APP_EXE) $(APP_FILES)
+	7z.exe a "$(BUILD_ZIP)" $(APP_FILES)
 
 # Compile and create a MSI installer
 msi: compile
