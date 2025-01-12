@@ -10,14 +10,18 @@ Class Komorebi
   ; Userprofile komorebi.ahk file path.
   static userProfileAhk => this.USERPROFILE "\komorebi.ahk"
   ; Userprofile applications.yaml file path.
-  static userProfileYaml => this.USERPROFILE "\applications.yaml"
+  static userProfileAppYaml => this.USERPROFILE "\applications.yaml"
+  ; Userprofile applications.json file path.
+  static userProfileAppJson => this.USERPROFILE "\applications.json"
 
   ; Default komorebi.json file path.
   static configJson => this.CONFIG_HOME "\komorebi.json"
   ; Default komorebi.ahk file path.
   static configAhk => this.CONFIG_HOME "\komorebi.ahk"
   ; Default applications.yaml file path.
-  static configYaml => this.CONFIG_HOME "\applications.yaml"
+  static configAppYaml => this.CONFIG_HOME "\applications.yaml"
+  ; Default applications.yaml file path.
+  static configAppJson => this.CONFIG_HOME "\applications.json"
 
   ; Return true if komorebi.exe is running in background
   static isRunning => ProcessExist("komorebi.exe") ? true : false
@@ -69,5 +73,19 @@ Class Komorebi
   ; Unsubscribe komorebi from a named pipe.
   static unsubscribe(pipe_name) {
     this.command(Format("unsubscribe-pipe {}", pipe_name))
+  }
+
+  ; Fetch and create needed configuration files
+  static newConfigFiles() {
+    ; Download latest komorebi.json example
+    Download(
+      "https://raw.githubusercontent.com/LGUG2Z/komorebi/master/docs/komorebi.example.json",
+      this.configJson
+    )
+    ; Use `KOMOREBI_CONFIG_HOME` as root for applications.json
+    jsonConfig := FileRead(this.configJson)
+    jsonConfig := StrReplace(jsonConfig, "$Env:USERPROFILE", "$Env:KOMOREBI_CONFIG_HOME")
+    FileDelete(this.configJson)
+    FileAppend(jsonConfig, this.configJson)
   }
 }

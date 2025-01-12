@@ -52,14 +52,7 @@ Startup() {
         "komorebi.json not detected.`n`n" .
         "Downloading defaults to: " Komorebi.configJson
       )
-      Download(
-        "https://raw.githubusercontent.com/LGUG2Z/komorebi/master/docs/komorebi.example.json",
-        Komorebi.configJson
-      )
-      jsonConfig := FileRead(Komorebi.configJson)
-      jsonConfig := StrReplace(jsonConfig, "$Env:USERPROFILE", "$Env:KOMOREBI_CONFIG_HOME")
-      FileDelete(Komorebi.configJson)
-      FileAppend(jsonConfig, Komorebi.configJson)
+      Komorebi.newConfigFiles()
     }
   }
 
