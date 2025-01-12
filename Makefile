@@ -6,9 +6,9 @@ WIX_EXT := $(USERPROFILE)\.wix\extensions\WixToolset.UI.wixext\5.0.0\wixext5
 APP_AHK := komorebi-tray.ahk
 APP_EXE := komorebi-tray.exe
 BUILD_DIR := build
-BUILD_ZIP := $(BUILD_DIR)\KomorebiTray-$(VERSION).zip
-BUILD_MSI := $(BUILD_DIR)\KomorebiTray-$(VERSION).msi
-APP_FILES := "$(APP_EXE)" "LICENSE" "images\ico\*" "profiles\*"
+BUILD_ZIP := ".\$(BUILD_DIR)\KomorebiTray-$(VERSION).zip"
+BUILD_MSI := ".\$(BUILD_DIR)\KomorebiTray-$(VERSION).msi"
+APP_FILES := ".\$(APP_EXE)" ".\LICENSE" ".\images\ico\*" ".\profiles\*"
 GIT_REPO := git@github.com:starise/komorebi-tray.git
 
 # Print a helper
