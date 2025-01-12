@@ -31,7 +31,9 @@ Class KomorebiProfile
   static enable(profile) {
     Settings.save(profile, "active", "profiles")
     ; Create a hard link from /profiles to config home.
-    FileDelete(Komorebi.configAhk)
+    if (FileExist(Komorebi.configAhk)) {
+      FileDelete(Komorebi.configAhk)
+    }
     success := DllCall(
       "CreateHardLink",
       "Str", Komorebi.configAhk, ; Name of the new file (hard link).
