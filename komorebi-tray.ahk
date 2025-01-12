@@ -49,8 +49,8 @@ Startup() {
       FileMove(Komorebi.userProfileJson, Komorebi.configJson)
     } else {
       MsgBox(
-        "komorebi.json not detected.`n`n" .
-        "Downloading defaults to: " Komorebi.configJson
+        "komorebi.json and applications.json not detected.`n`n" .
+        "Downloading defaults to: " Komorebi.CONFIG_HOME
       )
       Komorebi.newConfigFiles()
     }
@@ -79,6 +79,9 @@ Startup() {
     Settings.save(profiles[1], "active", "profiles")
   }
 
+  KomorebiTray.create(profiles)
+  KomorebiProfile.enable(KomorebiProfile.active)
+
   if ( not Komorebi.isRunning) {
     try {
       RunWait(("komorebic.exe"), , "Hide")
@@ -95,8 +98,6 @@ Startup() {
   }
 
   KomorebiEvents.start()
-  KomorebiTray.create(profiles)
-  KomorebiProfile.enable(KomorebiProfile.active)
 }
 
 TraySetIcon("images/ico/app.ico")
