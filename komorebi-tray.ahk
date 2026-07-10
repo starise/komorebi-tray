@@ -113,5 +113,5 @@ Startup() {
   KomorebiEvents.start()
 }
 
-TraySetIcon("images/ico/app.ico")
+TraySetIcon(A_ScriptDir "\images\ico\app.ico")
 Startup()
