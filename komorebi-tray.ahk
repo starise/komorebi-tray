@@ -87,7 +87,6 @@ Startup() {
       "Creating new defaults to: " Settings.configFile
     )
   }
-  Settings.save(KomorebiProfile.active, "active", "profiles")
 
   KomorebiTray.create(profiles)
   KomorebiProfile.enable(KomorebiProfile.active)
