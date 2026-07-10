@@ -60,7 +60,7 @@ class NamedPipe
         "Ptr", 0, ; Security attributes (default).
         "Ptr" ; Return type: pointer (handle) to the loaded DLL.
       )
-      if (this.lastErrorCode != 0) {
+      if (not this.isValid[pipeHandle]) {
         throw Error("Failed to create a named pipe.", this.lastErrorCode)
       }
     } catch Error as e {
