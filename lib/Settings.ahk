@@ -17,6 +17,6 @@ Class Settings
 
   ; Delete a "key=value" from a [section] in the configuration file
   static delete(key, section) {
-    IniDelete(this.configFile, key, section)
+    IniDelete(this.configFile, section, key)
   }
 }
