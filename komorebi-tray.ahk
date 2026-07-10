@@ -67,17 +67,27 @@ Startup() {
 
   ; Load all profiles from the folder
   profiles := KomorebiProfile.getAll()
+  if (not profiles.Length) {
+    DirCopy(A_ScriptDir "\profiles", KomorebiProfile.folder, true)
+    profiles := KomorebiProfile.getAll()
+  }
 
+  KomorebiProfile.active := profiles[1]
   if (FileExist(Settings.configFile)) {
-    KomorebiProfile.active := Settings.load("active", "profiles")
+    savedProfile := Settings.load("active", "profiles")
+    for profile in profiles {
+      if (profile = savedProfile) {
+        KomorebiProfile.active := savedProfile
+        break
+      }
+    }
   } else {
     MsgBox(
       Format("══ {:T} ══`n`n", "Configuration file not detected")
       "Creating new defaults to: " Settings.configFile
     )
-    KomorebiProfile.active := profiles[1]
-    Settings.save(profiles[1], "active", "profiles")
   }
+  Settings.save(KomorebiProfile.active, "active", "profiles")
 
   KomorebiTray.create(profiles)
   KomorebiProfile.enable(KomorebiProfile.active)
