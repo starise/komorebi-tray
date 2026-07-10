@@ -67,9 +67,13 @@ Startup() {
 
   ; Load all profiles from the folder
   profiles := KomorebiProfile.getAll()
-  if (not profiles.Length) {
+  if (not profiles.Length and DirExist(A_ScriptDir "\profiles")) {
     DirCopy(A_ScriptDir "\profiles", KomorebiProfile.folder, true)
     profiles := KomorebiProfile.getAll()
+  }
+  if (not profiles.Length) {
+    MsgBox("No AutoHotkey profiles found in: " KomorebiProfile.folder)
+    ExitApp()
   }
 
   KomorebiProfile.active := profiles[1]
