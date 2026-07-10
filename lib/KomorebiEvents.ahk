@@ -73,14 +73,22 @@ Class KomorebiEvents
     }
     ; If the event is not empty and contains new data
     if (event and event != this.lastEvent) {
-      this.lastEvent := JSON.Load(event)["state"]
-      Komorebi.isPaused := this.lastEvent["is_paused"]
-      Komorebi.display := this.lastEvent["monitors"]["focused"] + 1
-      displayData := this.lastEvent["monitors"]["elements"][Komorebi.display]
-      Komorebi.displayName := displayData["name"]
-      Komorebi.workspace := displayData["workspaces"]["focused"] + 1
-      workspaceData := displayData["workspaces"]["elements"][Komorebi.workspace]
-      Komorebi.workspaceName := workspaceData["name"]
+      try {
+        state := JSON.Load(event)["state"]
+        display := state["monitors"]["focused"] + 1
+        displayData := state["monitors"]["elements"][display]
+        workspace := displayData["workspaces"]["focused"] + 1
+        workspaceData := displayData["workspaces"]["elements"][workspace]
+
+        this.lastEvent := event
+        Komorebi.isPaused := state["is_paused"]
+        Komorebi.display := display
+        Komorebi.displayName := displayData["name"]
+        Komorebi.workspace := workspace
+        Komorebi.workspaceName := workspaceData["name"]
+      } catch Error as e {
+        OutputDebug("Invalid komorebi event: " e.Message)
+      }
     }
   }
 }
