@@ -1,4 +1,3 @@
 build/
 node_modules/
 komorebi-tray.exe
-package-lock.json
