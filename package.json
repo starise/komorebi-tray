@@ -5,7 +5,7 @@
   "scripts": {
     "genicons": "node generate-icons.js"
   },
-  "dependencies": {
-    "icon-gen": "^4.0.0"
+  "devDependencies": {
+    "icon-gen": "^5.0.0"
   }
 }

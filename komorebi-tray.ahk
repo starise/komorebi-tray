@@ -67,16 +67,29 @@ Startup() {
 
   ; Load all profiles from the folder
   profiles := KomorebiProfile.getAll()
+  if ( not profiles.Length and DirExist(A_ScriptDir "\profiles")) {
+    DirCopy(A_ScriptDir "\profiles", KomorebiProfile.folder, true)
+    profiles := KomorebiProfile.getAll()
+  }
+  if ( not profiles.Length) {
+    MsgBox("No AutoHotkey profiles found in: " KomorebiProfile.folder)
+    ExitApp()
+  }
 
+  KomorebiProfile.active := profiles[1]
   if (FileExist(Settings.configFile)) {
-    KomorebiProfile.active := Settings.load("active", "profiles")
+    savedProfile := Settings.load("active", "profiles")
+    for profile in profiles {
+      if (profile = savedProfile) {
+        KomorebiProfile.active := savedProfile
+        break
+      }
+    }
   } else {
     MsgBox(
       Format("══ {:T} ══`n`n", "Configuration file not detected")
       "Creating new defaults to: " Settings.configFile
     )
-    KomorebiProfile.active := profiles[1]
-    Settings.save(profiles[1], "active", "profiles")
   }
 
   KomorebiTray.create(profiles)
@@ -100,5 +113,6 @@ Startup() {
   KomorebiEvents.start()
 }
 
-TraySetIcon("images/ico/app.ico")
+TraySetIcon(A_ScriptDir "\images\ico\app.ico")
+Popup.initialize()
 Startup()

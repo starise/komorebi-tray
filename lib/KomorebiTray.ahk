@@ -39,7 +39,7 @@ Class KomorebiTray
     this.mainMenu.Disable(this.pauseName)
     this.mainMenu.Default := ""
     ; Tray icon in waiting mode
-    TraySetIcon("images/ico/app.ico")
+    TraySetIcon(A_ScriptDir "\images\ico\app.ico")
     A_IconTip := "Waiting for Komorebi..."
     Popup.new("Komorebi disconnected", 2000)
   }
@@ -101,21 +101,21 @@ Class KomorebiTray
     if (Komorebi.workspace != Komorebi.workspaceLast) {
       Komorebi.workspaceLast := Komorebi.workspace
       if (Komorebi.workspace <= Komorebi.workspaceMax) {
-        TraySetIcon("images/ico/d-" Komorebi.workspace ".ico")
+        TraySetIcon(A_ScriptDir "\images\ico\d-" Komorebi.workspace ".ico")
       } else {
-        TraySetIcon("images/ico/app.ico")
+        TraySetIcon(A_ScriptDir "\images\ico\app.ico")
       }
       A_IconTip := Komorebi.workspaceName " @ " Komorebi.displayName
       Popup.new(Komorebi.workspaceName, 2000)
     }
     if (Komorebi.isPaused and not this.menuPaused) {
       this.mainMenu.Rename(this.pauseName, "Resume")
-      TraySetIcon("images/ico/pause.ico")
+      TraySetIcon(A_ScriptDir "\images\ico\pause.ico")
       this.menuPaused := true
     }
     if ( not Komorebi.isPaused and this.menuPaused) {
       this.mainMenu.Rename(this.pauseName, "Pause")
-      TraySetIcon("images/ico/d-" Komorebi.workspace ".ico")
+      TraySetIcon(A_ScriptDir "\images\ico\d-" Komorebi.workspace ".ico")
       this.menuPaused := false
     }
   }

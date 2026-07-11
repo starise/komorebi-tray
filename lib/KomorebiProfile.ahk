@@ -29,18 +29,23 @@ Class KomorebiProfile
   ; Enable a new profile and disable the previous active one.
   ; https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createhardlinka
   static enable(profile) {
-    Settings.save(profile, "active", "profiles")
-    ; Create a hard link from /profiles to config home.
-    if (FileExist(Komorebi.configAhk)) {
-      FileDelete(Komorebi.configAhk)
+    temporaryConfig := Komorebi.configAhk ".tmp"
+    if (FileExist(temporaryConfig)) {
+      FileDelete(temporaryConfig)
     }
+    ; Create the new hard link before replacing the active configuration.
     success := DllCall(
       "CreateHardLink",
-      "Str", Komorebi.configAhk, ; Name of the new file (hard link).
+      "Str", temporaryConfig, ; Name of the new file (hard link).
       "Str", this.folder "\" profile, ; Name of the existing file.
       "Int", 0, ; Reserved; must be NULL.
       "Int" ; Return type: nonzero (success) or zero (failed).
     )
+    if (not success) {
+      throw OSError(A_LastError)
+    }
+    FileMove(temporaryConfig, Komorebi.configAhk, true)
+    Settings.save(profile, "active", "profiles")
     Komorebi.reloadConfigAhk()
     this.activate(profile)
 
