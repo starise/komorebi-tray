@@ -1,6 +1,6 @@
 # <img src="images/png/app.png" width="24"> Komorebi Tray
 
-A tray app to manage komorebi tiling window manager for Windows. 
+A tray app to manage komorebi tiling window manager for Windows.
 
 - Switch between **multiple AutoHotkey profiles**.
 - Show the current **workspace number** on tray icon.
@@ -10,7 +10,7 @@ A tray app to manage komorebi tiling window manager for Windows.
 
 Komorebi can be started, stopped and paused externally and the app will adjust accordingly: **it works independently from komorebi** and does not require any change to your current komorebi configuration (see [Quick start](#quick-start)).
 
- If the app is already running but the connection with komorebi is lost, the app will wait for komorebi to start. If the app is started but komorebi has not been launched yet, the app will attempt to launch komorebi. This is useful if you want to use this app as a *launcher* for Komorebi at Windows startup.
+If the app is already running but the connection with komorebi is lost, the app will wait for komorebi to start. If the app is started but komorebi has not been launched yet, the app will attempt to launch komorebi. This is useful if you want to use this app as a _launcher_ for Komorebi at Windows startup.
 
 ![Komorebi Tray Preview](images/preview.png)
 
@@ -41,3 +41,7 @@ Add your custom `*.ahk` scripts to `$Env:KOMOREBI_CONFIG_HOME\profiles\`.
 
 - Load new profiles: `Right click -> Reload`.
 - Enable a new profile: `Right click -> Profiles -> profile.ahk`.
+
+## Development
+
+See [`CONTRIBUTING.md`](CONTRIBUTING.md).
