@@ -4,13 +4,16 @@
 >
   <Package
     UpgradeCode="008acf35-b074-43f6-8239-275c7e6980fa"
-    Version="0.1.1"
+    Version="0.1.2"
     Language="1033"
     Name="Komorebi Tray"
     Manufacturer="Andrea Brandi"
     InstallerVersion="400"
   >
     <ui:WixUI Id="WixUI_InstallDir" InstallDirectory="ApplicationRootDir" />
+    <MajorUpgrade
+      DowngradeErrorMessage="A newer version of [ProductName] is already installed."
+    />
     <WixVariable Id="WixUILicenseRtf" Value="wix\LICENSE.rtf" />
     <Media Id="1" Cabinet="setup.cab" EmbedCab="yes" />
 
