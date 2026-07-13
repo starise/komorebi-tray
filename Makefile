@@ -11,7 +11,7 @@ APP_EXE := komorebi-tray.exe
 BUILD_DIR := build
 BUILD_ZIP := .\$(BUILD_DIR)\KomorebiTray-$(VERSION).zip
 BUILD_MSI := .\$(BUILD_DIR)\KomorebiTray-$(VERSION).msi
-APP_FILES := ".\$(APP_EXE)" ".\LICENSE" ".\images\ico\*" ".\profiles\*"
+APP_FILES := ".\$(APP_EXE)" ".\LICENSE" ".\images" ".\profiles"
 GIT_REPO := git@github.com:starise/komorebi-tray.git
 
 # Print a helper
@@ -30,7 +30,8 @@ compile:
 
 # Compile and create a ZIP portable
 zip: compile
-	7z.exe a "$(BUILD_ZIP)" $(APP_FILES)
+	-pwsh -noprofile -command ri "$(BUILD_ZIP)" -Force
+	7z.exe a "$(BUILD_ZIP)" $(APP_FILES) -xr!images\png -x!images\preview.png
 
 # Compile and create a MSI installer
 msi: compile
