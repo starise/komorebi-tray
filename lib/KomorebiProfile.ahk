@@ -6,12 +6,6 @@ Class KomorebiProfile
   ; Folder path that contains all custom *.ahk profiles.
   static folder => Komorebi.CONFIG_HOME "\profiles"
 
-  ; Check if a profile is different from the current active one.
-  static isDifferent(profile) => this.active != profile
-
-  ; Make the given profile the current active one.
-  static activate(profile) => this.active := profile
-
   ; Currently active autohotkey profile.
   static active := ""
 
@@ -19,8 +13,7 @@ Class KomorebiProfile
   static getAll() {
     profiles := []
     Loop Files (this.folder "\*.ahk") {
-      fileName := StrSplit(A_LoopFilePath, "\").Pop()
-      profiles.Push(fileName)
+      profiles.Push(A_LoopFileName)
     }
 
     return profiles
@@ -47,8 +40,6 @@ Class KomorebiProfile
     FileMove(temporaryConfig, Komorebi.configAhk, true)
     Settings.save(profile, "active", "profiles")
     Komorebi.reloadConfigAhk()
-    this.activate(profile)
-
-    return success
+    this.active := profile
   }
 }

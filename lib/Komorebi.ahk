@@ -24,7 +24,7 @@ Class Komorebi
   static configAppJson => this.CONFIG_HOME "\applications.json"
 
   ; Return true if komorebi.exe is running in background
-  static isRunning => ProcessExist("komorebi.exe") ? true : false
+  static isRunning => ProcessExist("komorebi.exe")
   ; True if komorebi is paused.
   static isPaused := false
   ; Number of current focused display.

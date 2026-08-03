@@ -5,7 +5,6 @@ SHELL := cmd.exe
 VERSION := $(or $(v),dev)
 AHK2EXE := $(USERPROFILE)\Scoop\apps\autohotkey\current\Compiler\Ahk2Exe.exe
 AHK_BASE := $(USERPROFILE)\Scoop\apps\autohotkey\current\v2\AutoHotkey64.exe
-PACKER := $(USERPROFILE)\Scoop\apps\autohotkey\current\Compiler\Upx.exe
 APP_AHK := komorebi-tray.ahk
 APP_EXE := komorebi-tray.exe
 BUILD_DIR := build
@@ -23,7 +22,7 @@ clean:
 	-pwsh -noprofile -command ri $(APP_EXE) -Force
 	-pwsh -noprofile -command ri $(BUILD_DIR) -Force -Recurse
 
-# Compile AHK files and compress with UPX
+# Compile AHK files
 compile:
 	pwsh -noprofile -command md $(BUILD_DIR) -Force
 	"$(AHK2EXE)" /in $(APP_AHK) /out $(APP_EXE) /base "$(AHK_BASE)"

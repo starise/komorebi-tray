@@ -16,9 +16,6 @@ Class KomorebiEvents
   ; Method to wait for komorebi to be launched.
   static waiter := ObjBindMethod(this, "wait")
 
-  ; Convert a raw json string into a json object.
-  static toJson(raw) => JSON.Load(raw)["state"]
-
   ; Start listening to komorebi named pipe.
   static start() {
     this.pipe.create()
