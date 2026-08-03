@@ -66,14 +66,15 @@ Class Popup
     timer := this.DEFAULT_TIMER,
     fontSize := this.DEFAULT_FONT_SIZE,
     fontColor := this.DEFAULT_FONT_COLOR,
-    bgColor := this.DEFAULT_BG_COLOR
+    bgColor := this.DEFAULT_BG_COLOR,
+    monitor := 1
   ) {
     this.initialize()
     this.applyStyle(fontSize, fontColor, bgColor)
     textSize := this.measure(message)
     width := textSize.width + this.PADDING_X * 2 + this.chromeWidth
     height := textSize.height + this.PADDING_Y * 2 + this.chromeHeight
-    MonitorGetWorkArea(, &left, &top, &right, &bottom)
+    MonitorGetWorkArea(monitor, &left, &top, &right, &bottom)
 
     this.textControl.Value := message
     ; Place the text inside the client-area padding.

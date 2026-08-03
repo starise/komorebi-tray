@@ -98,15 +98,19 @@ Class KomorebiTray
 
   ; Update status with current data available
   static updateStatus() {
-    if (Komorebi.workspace != Komorebi.workspaceLast) {
+    if (Komorebi.display != Komorebi.displayLast
+      or Komorebi.workspace != Komorebi.workspaceLast) {
+      Komorebi.displayLast := Komorebi.display
       Komorebi.workspaceLast := Komorebi.workspace
-      if (Komorebi.workspace <= Komorebi.workspaceMax) {
-        TraySetIcon(A_ScriptDir "\images\ico\d-" Komorebi.workspace ".ico")
-      } else {
-        TraySetIcon(A_ScriptDir "\images\ico\app.ico")
+      if (not Komorebi.isPaused) {
+        if (Komorebi.workspace <= Komorebi.workspaceMax) {
+          TraySetIcon(A_ScriptDir "\images\ico\d-" Komorebi.workspace ".ico")
+        } else {
+          TraySetIcon(A_ScriptDir "\images\ico\app.ico")
+        }
       }
       A_IconTip := Komorebi.workspaceName " @ " Komorebi.displayName
-      Popup.new(Komorebi.workspaceName, 2000)
+      Popup.new(Komorebi.workspaceName, 2000, , , , Komorebi.display)
     }
     if (Komorebi.isPaused and not this.menuPaused) {
       this.mainMenu.Rename(this.pauseName, "Resume")

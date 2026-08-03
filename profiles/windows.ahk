@@ -8,15 +8,21 @@ Komorebic(cmd) {
 
 MouseOnTaskbar() {
   MouseGetPos(, , &hoverID)
-  taskbarPrimaryID := WinExist("ahk_class Shell_TrayWnd")
-  taskbarSecondaryID := WinExist("ahk_class Shell_SecondaryTrayWnd")
-  return (hoverID == taskbarPrimaryID or hoverID == taskbarSecondaryID)
+  hoverClass := WinGetClass("ahk_id " hoverID)
+  return (hoverClass == "Shell_TrayWnd"
+    or hoverClass == "Shell_SecondaryTrayWnd")
+}
+
+CycleWorkspaceAtCursor(direction) {
+  Komorebic("focus-monitor-at-cursor")
+  Komorebic("cycle-workspace " direction)
 }
 
 ; Cycle workspaces with mouse wheel on taskbar
 #HotIf MouseOnTaskbar()
-WheelUp:: Komorebic("cycle-workspace previous")
-WheelDown:: Komorebic("cycle-workspace next")
+~LButton:: Komorebic("focus-monitor-at-cursor")
+WheelUp:: CycleWorkspaceAtCursor("previous")
+WheelDown:: CycleWorkspaceAtCursor("next")
 #HotIf
 
 ; Disable default virtual desktop shortcuts

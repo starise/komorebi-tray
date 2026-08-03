@@ -29,6 +29,8 @@ Class Komorebi
   static isPaused := false
   ; Number of current focused display.
   static display := 0
+  ; Number of last focused display.
+  static displayLast := 0
   ; Name of current focused display.
   static displayName := ""
   ; Number of current focused workspace.
