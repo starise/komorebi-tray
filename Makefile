@@ -30,7 +30,7 @@ compile:
 # Compile and create a ZIP portable
 zip: compile
 	-pwsh -noprofile -command ri "$(BUILD_ZIP)" -Force
-	7z.exe a "$(BUILD_ZIP)" $(APP_FILES) -xr!images\png -x!images\preview.png
+	7z.exe a "$(BUILD_ZIP)" $(APP_FILES) -xr!images\png -x!images\preview.png -x!images\ico\app.ico
 
 # Compile and create a MSI installer
 msi: compile

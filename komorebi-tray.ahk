@@ -113,6 +113,5 @@ Startup() {
   KomorebiEvents.start()
 }
 
-TraySetIcon(A_ScriptDir "\images\ico\app.ico")
 Popup.initialize()
 Startup()

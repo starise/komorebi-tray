@@ -58,11 +58,10 @@
     <Feature Id="MainApplication" Title="Main Application" Level="1">
       <Files
         Directory="ApplicationRootDir"
-        Subdirectory="images"
-        Include="..\images\**"
+        Subdirectory="images\ico"
+        Include="..\images\ico\**"
       >
-        <Exclude Files="..\images\png\**" />
-        <Exclude Files="..\images\preview.png" />
+        <Exclude Files="..\images\ico\app.ico" />
       </Files>
       <Files
         Directory="ApplicationRootDir"
