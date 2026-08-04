@@ -4,15 +4,23 @@
 
 #Include ..\lib\Komorebi.ahk
 
-Komorebi.CONFIG_HOME := A_ScriptDir "\fixtures"
-Komorebi.startConfigAhk()
+profilePath := A_ScriptDir "\fixtures\komorebi.ahk"
+Komorebi.startConfigAhk(profilePath)
 firstPid := Komorebi.configAhkPid
 if (not firstPid or not ProcessExist(firstPid)) {
   FileAppend("The profile did not start.`n", "*")
   ExitApp(1)
 }
 
-Komorebi.startConfigAhk()
+try Komorebi.startConfigAhk(A_ScriptDir "\fixtures\missing.ahk")
+catch Error {
+}
+if (Komorebi.configAhkPid != firstPid or not ProcessExist(firstPid)) {
+  FileAppend("A missing profile stopped the active profile.`n", "*")
+  ExitApp(1)
+}
+
+Komorebi.startConfigAhk(profilePath)
 pid := Komorebi.configAhkPid
 if (pid = firstPid or ProcessExist(firstPid) or not ProcessExist(pid)) {
   FileAppend("The previous profile outlived its replacement.`n", "*")

@@ -25,9 +25,8 @@ Keep work in its owner. `lib/JSON.ahk` is vendored: do not reformat it.
   event must not leave mixed old/new display, workspace, or pause values.
 - Reconnect: an external komorebi stop puts the tray in waiting state; restart
   reconnects without restarting the tray. Close old pipe handles first.
-- Profiles: create `komorebi.ahk.tmp` as a hard link, replace
-  `komorebi.ahk` only after success, then persist selection and reload. Never
-  delete the active file before the replacement exists.
+- Profiles: launch the selected file directly from `profiles/`, then persist
+  the selection. Stop the previous profile before starting its replacement.
 - Popup: keep one non-activating GUI/HWND. Update it with `SetWindowPos`; hide
   it by transparency/off-screen movement. Do not call `Gui.Show()`/`Gui.Hide()`
   for each message.

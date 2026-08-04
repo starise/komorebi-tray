@@ -39,6 +39,10 @@ For more information, see the official [Komorebi docs](https://lgug2z.github.io/
 
 Add your custom `*.ahk` scripts to `$Env:KOMOREBI_CONFIG_HOME\profiles\`.
 
+> [!IMPORTANT]
+> `KOMOREBI_CONFIG_HOME\komorebi.ahk` is no longer managed. An existing file
+> can be removed if it is not used independently.
+
 - Load new profiles: `Right click -> Reload`.
 - Enable a new profile: `Right click -> Profiles -> profile.ahk`.
 

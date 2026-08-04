@@ -26,8 +26,8 @@ AutoHotkey64.exe .\test\popup-test.ahk
 ## By area
 
 - Startup/profile: test with empty config; saved valid/invalid profile;
-  profile switching; failed temporary hard-link creation leaves active config
-  and settings unchanged.
+  profile switching; missing profile leaves the active process and settings
+  unchanged.
 - Tray: pause/resume label and icon, waiting state, tooltip, profile checkmark,
   and launch from a different working directory.
 - Build: run the changed target. For release/package changes, inspect ZIP and

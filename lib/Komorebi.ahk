@@ -7,8 +7,6 @@ Class Komorebi
 
   ; Userprofile komorebi.json file path.
   static userProfileJson => this.USERPROFILE "\komorebi.json"
-  ; Userprofile komorebi.ahk file path.
-  static userProfileAhk => this.USERPROFILE "\komorebi.ahk"
   ; Userprofile applications.yaml file path.
   static userProfileAppYaml => this.USERPROFILE "\applications.yaml"
   ; Userprofile applications.json file path.
@@ -16,8 +14,6 @@ Class Komorebi
 
   ; Default komorebi.json file path.
   static configJson => this.CONFIG_HOME "\komorebi.json"
-  ; Default komorebi.ahk file path.
-  static configAhk => this.CONFIG_HOME "\komorebi.ahk"
   ; Default applications.yaml file path.
   static configAppYaml => this.CONFIG_HOME "\applications.yaml"
   ; Default applications.yaml file path.
@@ -65,11 +61,14 @@ Class Komorebi
   }
 
   ; Start the active autohotkey profile.
-  static startConfigAhk() {
+  static startConfigAhk(profilePath) {
+    if (not FileExist(profilePath)) {
+      throw Error("AutoHotkey profile not found: " profilePath)
+    }
     this.stopConfigAhk()
     command := A_IsCompiled
-      ? Format('"{}" /script "{}"', A_ScriptFullPath, this.configAhk)
-      : Format('"{}" "{}"', A_AhkPath, this.configAhk)
+      ? Format('"{}" /script "{}"', A_ScriptFullPath, profilePath)
+      : Format('"{}" "{}"', A_AhkPath, profilePath)
     Run(command, , "Hide", &pid)
     this.configAhkPid := pid
   }
