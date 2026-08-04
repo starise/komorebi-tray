@@ -128,6 +128,8 @@ Class KomorebiTray
   ; Put the tray into a waiting state.
   static waiting() {
     SetTimer(this.statusUpdater, 0)
+    Komorebi.displayLast := 0
+    Komorebi.workspaceLast := 0
     ; Disable the pause menu
     this.mainMenu.Disable(this.pauseName)
     this.mainMenu.Default := ""
@@ -140,6 +142,11 @@ Class KomorebiTray
   ; Restart komorebi.
   static restart(*) {
     Komorebi.stop()
+    ProcessWaitClose("komorebi.exe", 10)
+    if (Komorebi.isRunning) {
+      OutputDebug("Komorebi did not stop within 10 seconds.")
+      return
+    }
     Komorebi.start()
   }
 
