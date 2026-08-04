@@ -82,7 +82,10 @@ Class KomorebiEvents
         Komorebi.display := display
         Komorebi.displayName := displayData["name"]
         Komorebi.workspace := workspace
-        Komorebi.workspaceName := workspaceData["name"]
+        workspaceName := workspaceData["name"]
+        Komorebi.workspaceName := workspaceName
+          ? workspaceName
+          : "Workspace " workspace
       } catch Error as e {
         OutputDebug("Invalid komorebi event: " e.Message)
       }
