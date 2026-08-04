@@ -39,7 +39,7 @@ Class KomorebiProfile
     }
     FileMove(temporaryConfig, Komorebi.configAhk, true)
     Settings.save(profile, "active", "profiles")
-    Komorebi.reloadConfigAhk()
+    Komorebi.startConfigAhk()
     this.active := profile
   }
 }

@@ -5,7 +5,7 @@ untested paths. Use a disposable configuration for startup/profile work:
 
 ```powershell
 $env:KOMOREBI_CONFIG_HOME = "$PWD\.local-test\komorebi"
-AutoHotkey64.exe .\komorebi-tray.ahk
+AutoHotkey.exe .\komorebi-tray.ahk
 ```
 
 ## Scripts

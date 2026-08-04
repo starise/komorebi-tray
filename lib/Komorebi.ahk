@@ -27,6 +27,8 @@ Class Komorebi
   static isRunning => ProcessExist("komorebi.exe")
   ; True if komorebi is paused.
   static isPaused := false
+  ; Process ID of the active autohotkey profile.
+  static configAhkPid := 0
   ; Number of current focused display.
   static display := 0
   ; Number of last focused display.
@@ -47,9 +49,9 @@ Class Komorebi
     RunWait(Format("komorebic.exe {}", cmd), , "Hide")
   }
 
-  ; Start komorebi.exe with autohotkey config.
+  ; Start komorebi.exe.
   static start() {
-    this.command("start --ahk")
+    this.command("start")
   }
 
   ; Stop komorebi.exe process.
@@ -62,9 +64,34 @@ Class Komorebi
     this.command("toggle-pause")
   }
 
-  ; Reload komorebi.ahk config file.
-  static reloadConfigAhk() {
-    this.command("reload-configuration")
+  ; Start the active autohotkey profile.
+  static startConfigAhk() {
+    this.stopConfigAhk()
+    command := A_IsCompiled
+      ? Format('"{}" /script "{}"', A_ScriptFullPath, this.configAhk)
+      : Format('"{}" "{}"', A_AhkPath, this.configAhk)
+    Run(command, , "Hide", &pid)
+    this.configAhkPid := pid
+  }
+
+  ; Stop the active autohotkey profile.
+  static stopConfigAhk() {
+    pid := this.configAhkPid
+    if (not pid or not ProcessExist(pid)) {
+      return
+    }
+    hiddenWindows := DetectHiddenWindows(true)
+    hwnd := WinExist("ahk_pid " pid " ahk_class AutoHotkey")
+    DetectHiddenWindows(hiddenWindows)
+    if (hwnd) {
+      try WinClose(hwnd)
+      ProcessWaitClose(pid, 1)
+    }
+    if (ProcessExist(pid)) {
+      ProcessClose(pid)
+      ProcessWaitClose(pid, 1)
+    }
+    this.configAhkPid := 0
   }
 
   ; Subscribe komorebi to a named pipe.

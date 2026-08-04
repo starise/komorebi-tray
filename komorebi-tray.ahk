@@ -113,5 +113,6 @@ Startup() {
   KomorebiEvents.start()
 }
 
+OnExit((*) => Komorebi.stopConfigAhk())
 Popup.initialize()
 Startup()
