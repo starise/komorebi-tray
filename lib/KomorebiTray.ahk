@@ -101,6 +101,12 @@ Class KomorebiTray
   }
 
   static setIcon(name) {
+    if (SubStr(name, 1, 2) = "d-") {
+      workspace := Integer(SubStr(name, 3))
+      if (workspace < 1 or workspace > Komorebi.workspaceMax) {
+        name := "app"
+      }
+    }
     this.currentIcon := name
     TraySetIcon(this.iconPath(name))
   }
