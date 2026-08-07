@@ -12,7 +12,7 @@ Komorebi can be started, stopped and paused externally and the app will adjust a
 
 If the app is already running but the connection with komorebi is lost, the app will wait for komorebi to start. If the app is started but komorebi has not been launched yet, the app will attempt to launch komorebi. This is useful if you want to use this app as a _launcher_ for Komorebi at Windows startup.
 
-![Komorebi Tray Preview](images/preview.png)
+![Komorebi Tray Preview](images/preview.webp)
 
 ## Quick start
 

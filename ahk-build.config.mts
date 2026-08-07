@@ -29,7 +29,7 @@ export default defineConfig({
       { from: "images", to: "images" },
       { from: "profiles", to: "profiles" },
     ],
-    exclude: ["png/**", "Preview.png", "**/Preview.png", "ico/app.ico"],
+    exclude: ["png/**", "preview.webp", "**/preview.webp", "ico/app.ico"],
   },
   wix: {
     source: "wix/script.wxs",
