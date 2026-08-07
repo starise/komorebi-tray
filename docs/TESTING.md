@@ -10,17 +10,17 @@ AutoHotkey.exe .\komorebi-tray.ahk
 
 ## Scripts
 
-| Change | Run | Also verify |
-|---|---|---|
-| Popup | `test/popup-test.ahk` | focus retention, placement/DPI, no AppStarting cursor |
+| Change      | Run                                      | Also verify                                                                   |
+| ----------- | ---------------------------------------- | ----------------------------------------------------------------------------- |
+| Popup       | `test/popup-test.ahk`                    | focus retention, placement/DPI, no AppStarting cursor                         |
 | Pipe/events | `test/pipe-test.ahk` (requires komorebi) | external stop/restart reconnects; malformed/large events do not corrupt state |
-| Settings | `test/settings-test.ahk` | expected key only changes |
-| Theme/icons | `test/theme-test.ahk` | switch Windows light/dark mode and open the tray menu |
+| Settings    | `test/settings-test.ahk`                 | expected key only changes                                                     |
+| Theme/icons | `test/theme-test.ahk`                    | switch Windows light/dark mode and open the tray menu                         |
 
 Run one script at a time:
 
 ```powershell
-AutoHotkey64.exe .\test\popup-test.ahk
+AutoHotkey.exe .\test\popup-test.ahk
 ```
 
 ## By area
@@ -32,7 +32,7 @@ AutoHotkey64.exe .\test\popup-test.ahk
   and launch from a different working directory.
 - Build: run the changed target. For release/package changes, inspect ZIP and
   install/uninstall the MSI independently.
-- Icons: run `npm ci; npm run genicons`; verify generated tray icons exist.
+- Icons: run `pnpm install; pnpm run genicons`; verify generated tray icons exist.
 
 For cross-cutting changes: start with empty config, switch workspace, pause and
 resume, switch profile, then externally stop and restart komorebi.

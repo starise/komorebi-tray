@@ -16,10 +16,10 @@ If the app is already running but the connection with komorebi is lost, the app 
 
 ## Quick start
 
-Install Komorebi Tray using the latest [MSI Windows Installer](https://github.com/starise/komorebi-tray/releases/latest) or **Scoop**.
+Install Komorebi Tray using the latest [MSI Windows Installer](https://github.com/alysoid/komorebi-tray/releases/latest) or **Scoop**.
 
 ```powershell
-scoop bucket add confetti https://github.com/starise/Scoop-Confetti
+scoop bucket add confetti https://github.com/alysoid/Scoop-Confetti
 scoop install komorebi-tray
 ```
 
@@ -49,3 +49,16 @@ Add your custom `*.ahk` scripts to `$Env:KOMOREBI_CONFIG_HOME\profiles\`.
 ## Development
 
 See [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
+## Build from source
+
+Requirements: Windows, Node.js 24, pnpm, and WiX 7 for the MSI.
+
+```powershell
+pnpm install
+pnpm run setup
+pnpm run build
+```
+
+The version in `package.json` controls the executable metadata and the ZIP/MSI
+names. The archive and installer are written to `build/`.

@@ -4,17 +4,17 @@ Komorebi Tray is a Windows-only AutoHotkey v2 tray application that
 controls komorebi, follows its state through a named pipe, and switches
 between AutoHotkey profiles.
 
-This is not a Node.js application. npm is used only to generate icons.
+Node.js is used for icon generation and `@alysoid/ahk-build` workflow.
 
 ## Commands
 
 Run from source:
 
-    AutoHotkey64.exe .\komorebi-tray.ahk
+    AutoHotkey.exe .\komorebi-tray.ahk
 
 Build distributable packages on Windows:
 
-    make build
+    pnpm run build
 
 ## Commits
 

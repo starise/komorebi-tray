@@ -2,7 +2,7 @@
 ; A tray app for komorebi tiling window manager.
 ; Author: Andrea Brandi <git@andreabrandi.com>
 
-;@Ahk2Exe-Let version=0.1.3
+;@Ahk2Exe-Let version=__APP_VERSION__
 ;@Ahk2Exe-SetVersion %U_version%
 ;@Ahk2Exe-SetProductVersion %U_version%
 ;@Ahk2Exe-SetName Komorebi Tray
@@ -30,7 +30,7 @@ Startup() {
     )
     Switch userChoice {
       Case "Continue":
-        Run("https://github.com/starise/komorebi-tray")
+        Run("https://github.com/alysoid/komorebi-tray")
         ExitApp()
       Case "TryAgain":
         Reload()

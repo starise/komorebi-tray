@@ -5,14 +5,14 @@ listens to komorebi state through a named pipe, and switches user profiles.
 
 ## Ownership
 
-| Area | Module |
-|---|---|
-| Startup | `komorebi-tray.ahk` |
-| Commands and shared state | `lib/Komorebi.ahk` |
-| Pipe and event parsing | `lib/KomorebiEvents.ahk`, `lib/NamedPipe.ahk` |
-| Profiles | `lib/KomorebiProfile.ahk` |
-| Tray and popup | `lib/KomorebiTray.ahk`, `lib/Popup.ahk` |
-| Settings | `lib/Settings.ahk` |
+| Area                      | Module                                        |
+| ------------------------- | --------------------------------------------- |
+| Startup                   | `komorebi-tray.ahk`                           |
+| Commands and shared state | `lib/Komorebi.ahk`                            |
+| Pipe and event parsing    | `lib/KomorebiEvents.ahk`, `lib/NamedPipe.ahk` |
+| Profiles                  | `lib/KomorebiProfile.ahk`                     |
+| Tray and popup            | `lib/KomorebiTray.ahk`, `lib/Popup.ahk`       |
+| Settings                  | `lib/Settings.ahk`                            |
 
 Keep work in its owner. `lib/JSON.ahk` is vendored: do not reformat it.
 

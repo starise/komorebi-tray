@@ -4,7 +4,7 @@
 >
   <Package
     UpgradeCode="008acf35-b074-43f6-8239-275c7e6980fa"
-    Version="0.1.3"
+    Version="$(var.ProductVersion)"
     Language="1033"
     Name="Komorebi Tray"
     Manufacturer="Andrea Brandi"
@@ -24,7 +24,7 @@
       >
         <File
           Id="komorebitray.exe"
-          Source="komorebi-tray.exe"
+          Source="$(var.BuildDir)\komorebi-tray.exe"
           KeyPath="yes"
           Checksum="yes"
         />
@@ -59,14 +59,14 @@
       <Files
         Directory="ApplicationRootDir"
         Subdirectory="images\ico"
-        Include="..\images\ico\**"
+        Include="$(var.ProjectRoot)\images\ico\**"
       >
-        <Exclude Files="..\images\ico\app.ico" />
+        <Exclude Files="$(var.ProjectRoot)\images\ico\app.ico" />
       </Files>
       <Files
         Directory="ApplicationRootDir"
         Subdirectory="profiles"
-        Include="..\profiles\**"
+        Include="$(var.ProjectRoot)\profiles\**"
       />
       <ComponentRef Id="komorebitray.exe" />
       <ComponentRef Id="ApplicationShortcut" />

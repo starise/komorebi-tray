@@ -6,19 +6,21 @@ profile work:
 
 ```powershell
 $env:KOMOREBI_CONFIG_HOME = "$PWD\.local-test\komorebi"
-AutoHotkey64.exe .\komorebi-tray.ahk
+AutoHotkey.exe .\komorebi-tray.ahk
 ```
 
 Read the guide relevant to the change in [`docs/`](docs/README.md). Keep the
 change focused; do not reformat `lib/JSON.ahk`.
 
 ```powershell
-make compile
-make build v=0.1.1
+pnpm install
+pnpm run setup
+pnpm run build
 ```
 
-`make` expects Scoop AutoHotkey. Full packages also need Ahk2Exe, 7-Zip, WiX,
-and PowerShell 7. Node/npm are only for `npm run genicons`.
+WiX 7 is required for the optional MSI. The managed ahk-build provider installs
+the pinned AutoHotkey and Ahk2Exe toolchain; `pnpm run genicons` remains the
+consumer-owned icon generator.
 
 There is no test suite: run relevant scripts and manual checks from
 [`docs/TESTING.md`](docs/TESTING.md), then report what ran and what did not.
