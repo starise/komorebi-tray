@@ -16,7 +16,7 @@ If the app is already running but the connection with komorebi is lost, the app 
 
 ## Quick start
 
-Install Komorebi Tray using the latest [MSI Windows Installer](https://github.com/alysoid/komorebi-tray/releases/latest) or **Scoop**.
+Install Komorebi Tray using the latest [MSI Windows Installer](https://github.com/starise/komorebi-tray/releases/latest) or **Scoop**.
 
 ```powershell
 scoop bucket add confetti https://github.com/alysoid/Scoop-Confetti

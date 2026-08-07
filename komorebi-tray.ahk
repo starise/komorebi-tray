@@ -30,7 +30,7 @@ Startup() {
     )
     Switch userChoice {
       Case "Continue":
-        Run("https://github.com/alysoid/komorebi-tray")
+        Run("https://github.com/starise/komorebi-tray")
         ExitApp()
       Case "TryAgain":
         Reload()

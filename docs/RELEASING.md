@@ -17,16 +17,20 @@ publication. The managed ahk-build provider supplies AutoHotkey and Ahk2Exe.
 4. Inspect `build/KomorebiTray-<version>.zip`; run the extracted app. Install and
    uninstall `build/KomorebiTray-<version>.msi`; check shortcut and resources.
 5. Confirm EXE/MSI metadata and ZIP/MSI filenames use the same version.
-6. Commit the version change, create the matching Git tag, and push both. The
-   configured tag is exactly the package version, without a `v` prefix:
+6. Commit the version change, create the matching signed Git tag, and push both.
+   The configured tag uses a `v` prefix:
 
    ```powershell
    git add package.json
    git commit -m "chore(release): prepare <version>"
-   git tag -a <version> -m "Release <version>"
+   git tag -s v<version> -m "Release v<version>"
+   git tag -v v<version>
    git push origin main
-   git push origin <version>
+   git push origin v<version>
    ```
+
+   The signing key must be associated with the GitHub account; verify the
+   signature locally before pushing the tag.
 
 7. Publish:
 

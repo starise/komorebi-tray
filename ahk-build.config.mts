@@ -38,8 +38,8 @@ export default defineConfig({
     extensions: ["WixToolset.UI.wixext"],
   },
   release: {
-    repository: "alysoid/komorebi-tray",
-    tag: "${packageVersion}",
+    repository: "starise/komorebi-tray",
+    tag: "v${packageVersion}",
     title: "Release v${packageVersion}",
     notes: "Release version ${packageVersion}",
     assets: [
