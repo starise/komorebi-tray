@@ -48,14 +48,11 @@ async function generateIcons() {
     for (const file of pngFiles) {
       const pngFile = path.join(themePngDirectory, file);
       const pngName = path.basename(file, ".png");
-      const sizes = pngName.startsWith("app-")
-        ? [16, 24, 32, 48, 256]
-        : [16, 24, 32, 48];
       generatedCount += (await generateIcon(
         pngFile,
         themeIcoDirectory,
         pngName,
-        sizes,
+        [16, 24, 32, 48],
       )).length;
     }
   }
