@@ -54,19 +54,19 @@ Class KomorebiEvents
   static listen() {
     ; Try to grab new event to evaluate
     event := this.pipe.getData()
+    pipeError := this.pipe.lastErrorCode
 
     ; The connection has been lost, maybe komorebi has been stopped.
     ; Stop listening and wait for komorebi to be started.
-    if (this.pipe.lastErrorCode = this.pipe.ERROR_BROKEN_PIPE) {
+    if (pipeError = this.pipe.ERROR_BROKEN_PIPE
+      or pipeError = this.pipe.ERROR_BAD_PIPE) {
       KomorebiEvents.stop()
       KomorebiTray.waiting()
+      if (pipeError = this.pipe.ERROR_BAD_PIPE and Komorebi.isRunning) {
+        Komorebi.togglePause()
+      }
       SetTimer(this.waiter, 2000)
-    }
-    ; When komorebi is paused before the app is started, the pipe
-    ; is reported as "bad": resume komorebi and try to reconnect.
-    if (this.pipe.lastErrorCode = this.pipe.ERROR_BAD_PIPE) {
-      Komorebi.togglePause()
-      KomorebiEvents.start()
+      return
     }
     ; If the event is not empty and contains new data
     if (event and event != this.lastEvent) {

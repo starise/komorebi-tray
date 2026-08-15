@@ -13,6 +13,7 @@ AutoHotkey.exe .\komorebi-tray.ahk
 | Change      | Run                                      | Also verify                                                                   |
 | ----------- | ---------------------------------------- | ----------------------------------------------------------------------------- |
 | Popup       | `test/popup-test.ahk`                    | focus retention, placement/DPI, no AppStarting cursor                         |
+| Pipe errors | `test/events-test.ahk`                    | absent komorebi enters waiting state without retrying commands                |
 | Pipe/events | `test/pipe-test.ahk` (requires komorebi) | external stop/restart reconnects; malformed/large events do not corrupt state |
 | Settings    | `test/settings-test.ahk`                 | expected key only changes                                                     |
 | Theme/icons | `test/theme-test.ahk`                    | switch Windows light/dark mode and open the tray menu                         |
