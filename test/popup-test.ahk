@@ -30,6 +30,16 @@ if (MonitorGetCount() > 1) {
   }
 }
 
+; Komorebi can report a physical output that Windows merges in clone mode.
+; An unavailable monitor must fall back to the primary logical display.
+Popup.new("Unavailable monitor", 50, , , , MonitorGetCount() + 1)
+MonitorGetWorkArea(1, &left, &top, &right, &bottom)
+WinGetPos(&x, &y, &width, &height, "ahk_id " popupHwnd)
+if (x != Round((left + right - width) / 2)
+  or y != bottom - height - Popup.BOTTOM_OFFSET) {
+  throw Error("Popup did not fall back to the primary monitor.")
+}
+
 Popup.new("Message 1", 2000)
 
 Sleep(500)

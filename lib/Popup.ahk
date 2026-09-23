@@ -74,6 +74,11 @@ Class Popup
     textSize := this.measure(message)
     width := textSize.width + this.PADDING_X * 2 + this.chromeWidth
     height := textSize.height + this.PADDING_Y * 2 + this.chromeHeight
+    ; Cloned displays can appear separately in komorebi but as one logical
+    ; monitor to Windows. Keep popup feedback available on the primary display.
+    if (monitor < 1 or monitor > MonitorGetCount()) {
+      monitor := 1
+    }
     MonitorGetWorkArea(monitor, &left, &top, &right, &bottom)
 
     this.textControl.Value := message
